@@ -1,7 +1,9 @@
 package org.example.model;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Set;
 
 public class Animal implements WorldElement {
 
@@ -15,7 +17,7 @@ public class Animal implements WorldElement {
 
     public List<Animal> parents = new LinkedList<>();
 
-    private MapDirection orientation = MapDirection.NORTH;
+    private MapDirection orientation;
     private Vector2d position;
 
     public Animal(Vector2d Position, String geneticCode, int energy) {
@@ -38,9 +40,9 @@ public class Animal implements WorldElement {
     public void move() {
         int turns = geneticCode.charAt(currentGenome) - '0';
         for (int i = 0; i < turns; i++) {
-            orientation.next();
+            orientation=orientation.next();
         }
-        position.add(orientation.toUnitVector());
+        position=position.add(orientation.toUnitVector());
         currentGenome = (currentGenome + 1) % geneticLength;
     }
 
@@ -83,6 +85,25 @@ public class Animal implements WorldElement {
 
     public void setCurrentGenome(int currentGenome) {
         this.currentGenome = currentGenome;
+    }
+
+    public int getCildrenAmount(){
+        return children.size();
+    }
+
+    public Set<Animal> getOffspring(){
+        Set<Animal> allOfsprings = new HashSet<>(children);
+        for (Animal currChildren : children){
+            allOfsprings.addAll(currChildren.getOffspring());
+        }
+        return allOfsprings;
+    }
+
+    public int getOffspringsAmount(){
+        int Offspring=0;
+        Set<Animal> allOffsprings=getOffspring();
+        Offspring=allOffsprings.size();
+        return Offspring;
     }
 
 

@@ -12,7 +12,14 @@ public class SlightMutation extends GenericMutation {
         int length = geneticCode.length();
         Random random = new Random();
         int idx = random.nextInt(length);
-        int slightChange = random.nextInt(2) - 1;
+        int check= random.nextInt(2);
+        int slightChange=0;
+        if (check==0){
+            slightChange=-1;
+        }
+        else {
+            slightChange=1;
+        }
         int changedGenom = geneticCode.charAt(idx) -'0';
         changedGenom = (changedGenom + slightChange) % 8;
         String modifiedCode = geneticCode.substring(0, idx) + changedGenom + geneticCode.substring(idx + 1, length);

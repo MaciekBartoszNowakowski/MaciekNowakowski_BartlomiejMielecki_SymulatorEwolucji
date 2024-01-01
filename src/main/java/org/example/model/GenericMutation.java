@@ -19,7 +19,7 @@ public abstract class GenericMutation implements MutationSystem{
         Random random =new Random();
         int mutationAmount = random.nextInt(maksimal-minimal+1)+minimal;
 
-        for (int i=0; i<mutationAmount;i++){
+        for (int i=0; i<mutationAmount;i++){;
             geneticCode=singleMutation(geneticCode);
         }
         return geneticCode;

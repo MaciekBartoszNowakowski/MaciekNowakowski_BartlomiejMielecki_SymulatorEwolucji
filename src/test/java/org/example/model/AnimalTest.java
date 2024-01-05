@@ -9,13 +9,13 @@ public class AnimalTest {
     @Test
     public void moveTest() {
         Animal testedAnimal=new Animal(new Vector2d(2,2),"0172",10);
-        testedAnimal.move();
+        testedAnimal.move(testedAnimal.nextPosition());
         assertEquals(new Vector2d(2,3),testedAnimal.getPosition());
-        testedAnimal.move();
+        testedAnimal.move(testedAnimal.nextPosition());
         assertEquals(new Vector2d(3,4),testedAnimal.getPosition());
-        testedAnimal.move();
+        testedAnimal.move(testedAnimal.nextPosition());
         assertEquals(new Vector2d(3,5),testedAnimal.getPosition());
-        testedAnimal.move();
+        testedAnimal.move(testedAnimal.nextPosition());
         assertEquals(new Vector2d(4,5),testedAnimal.getPosition());
     }
 
@@ -27,10 +27,10 @@ public class AnimalTest {
         Animal secondParent= new Animal(new Vector2d(2,2),"12345",50);
         Animal firstChild= reproductionSystem.reproduce(firstParent,secondParent);
         Animal secondChild=reproductionSystem.reproduce(firstParent,firstChild);
-        assertEquals(2,firstParent.getCildrenAmount());
-        assertEquals(1,secondParent.getCildrenAmount());
-        assertEquals(1,firstChild.getCildrenAmount());
-        assertEquals(0,secondChild.getCildrenAmount());
+        assertEquals(2,firstParent.getChildrenAmount());
+        assertEquals(1,secondParent.getChildrenAmount());
+        assertEquals(1,firstChild.getChildrenAmount());
+        assertEquals(0,secondChild.getChildrenAmount());
     }
 
     @Test

@@ -37,14 +37,25 @@ public class Animal implements WorldElement {
         return this.position.equals(position);
     }
 
-    public void move() {
-        int turns = geneticCode.charAt(currentGenome) - '0';
-        for (int i = 0; i < turns; i++) {
-            orientation=orientation.next();
-        }
-        position=position.add(orientation.toUnitVector());
+    public void move(Vector2d newPosition) {
+        position = newPosition;
+        orientation = nextOrientation();
         currentGenome = (currentGenome + 1) % geneticLength;
     }
+
+    public MapDirection nextOrientation(){
+        int turns = geneticCode.charAt(currentGenome) - '0';
+        MapDirection newOrientation = orientation;
+        for (int i = 0; i < turns; i++) {
+            newOrientation = newOrientation.next();
+        }
+        return newOrientation;
+    }
+
+    public Vector2d nextPosition(){
+        return position.add(nextOrientation().toUnitVector());
+    }
+
 
     @Override
     public Vector2d getPosition() {
@@ -87,7 +98,7 @@ public class Animal implements WorldElement {
         this.currentGenome = currentGenome;
     }
 
-    public int getCildrenAmount(){
+    public int getChildrenAmount(){
         return children.size();
     }
 
@@ -107,4 +118,7 @@ public class Animal implements WorldElement {
     }
 
 
+    public void setOppositeOrientation() {
+        this.orientation = this.orientation.opposite();
+    }
 }

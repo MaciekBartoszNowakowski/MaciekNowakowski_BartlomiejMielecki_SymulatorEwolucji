@@ -1,8 +1,8 @@
-package org.example.model;
+package example.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class Animal implements WorldElement {

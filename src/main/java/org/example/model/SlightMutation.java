@@ -25,4 +25,9 @@ public class SlightMutation extends GenericMutation {
         String modifiedCode = geneticCode.substring(0, idx) + changedGenom + geneticCode.substring(idx + 1, length);
         return modifiedCode;
     }
+
+    @Override
+    public String toString() {
+        return "SlightMutation{}";
+    }
 }

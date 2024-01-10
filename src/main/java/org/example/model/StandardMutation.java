@@ -15,4 +15,10 @@ public class StandardMutation extends  GenericMutation{
         String modifiedCode=geneticCode.substring(0,idx)+random.nextInt(8)+geneticCode.substring(idx+1,length);
         return modifiedCode;
     }
+
+
+    @Override
+    public String toString() {
+        return "StandardMutation{}";
+    }
 }

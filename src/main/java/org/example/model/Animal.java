@@ -121,4 +121,6 @@ public class Animal implements WorldElement {
     public void setOppositeOrientation() {
         this.orientation = this.orientation.opposite();
     }
+
+
 }

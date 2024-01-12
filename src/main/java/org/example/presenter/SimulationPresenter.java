@@ -1,12 +1,13 @@
 package org.example.presenter;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import org.example.Simulation;
 import org.example.SimulationEngine;
 import org.example.model.MapChangeListener;
@@ -21,6 +22,10 @@ public class SimulationPresenter implements MapChangeListener {
 
     private static final double CELL_WIDTH = 20;
     private static final double CELL_HEIGHT = 20;
+
+    private SimulationEngine simulationEngine;
+
+    private Simulation simulation;
 
     private WorldMap worldMap;
 
@@ -50,43 +55,27 @@ public class SimulationPresenter implements MapChangeListener {
         int lines = worldMap.getHeight();
         System.out.println("columns: " +columns +" "+"Lines "+lines);
 
-//        Label osField = new Label("y/x");
-//        mapGrid.add(osField, 0 ,0);
-//        for(int i=0; i<=columns;i++){
-//            Label posField = new Label(""+(i));
-//            mapGrid.add(posField,i+1,0);
-//            GridPane.setHalignment(posField, HPos.CENTER);
-//        }
-//        for(int i=0; i<=lines;i++){
-//            Label posField = new Label(""+(i));
-//            mapGrid.add(posField,0,i+1);
-//            GridPane.setHalignment(posField, HPos.CENTER);
-//        }
-
-
-
-
-
-
-
-
-        for (int i =0;i<columns;i++) mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
-        for (int i =0;i<lines;i++) mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
-
 
         for(WorldElementBox currBox : fieldBoxes){
             currBox.update();
             if (currBox.isGrassPlaced()){
-                currBox.setStyle("-fx_background-color: green;");
+                currBox.setBackground(new Background(new BackgroundFill(Color.rgb(0,255,0), CornerRadii.EMPTY, Insets.EMPTY)));
             }
             else{
-                currBox.setStyle("-fx_background-color: white;");
+                currBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255), CornerRadii.EMPTY, Insets.EMPTY)));
+
             }
+            currBox.setBorder(new Border(new BorderStroke(Color.valueOf("#9E9E9E"),
+                    BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY,
+                    BorderWidths.DEFAULT)));
             Vector2d vector2d = currBox.getPosition();
             mapGrid.add(currBox, vector2d.getX(), vector2d.getY());
             GridPane.setHalignment(currBox, HPos.CENTER);
         }
 
+        for (int i =0;i<columns;i++) mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
+        for (int i =0;i<lines;i++) mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
 
 
 //        System.out.println("Odswiezenie");
@@ -103,7 +92,7 @@ public class SimulationPresenter implements MapChangeListener {
 
 
     public void onStartedNewSimulation() throws InterruptedException {
-        Simulation simulation= new Simulation(worldMap);
+        simulation= new Simulation(worldMap);
         List<Simulation> simulations = new ArrayList<>();
 
 
@@ -112,12 +101,16 @@ public class SimulationPresenter implements MapChangeListener {
             });
 
         simulations.add(simulation);
-        SimulationEngine simulationEngine= new SimulationEngine(simulations);
+        simulationEngine= new SimulationEngine(simulations);
         simulationEngine.runAsync();
     }
 
 
+    public void onPlayClicked(ActionEvent actionEvent) {
+        simulation.setPause(false);
+    }
 
-
-
+    public void onPauseClicked(ActionEvent actionEvent) throws InterruptedException {
+        simulation.setPause(true);
+    }
 }

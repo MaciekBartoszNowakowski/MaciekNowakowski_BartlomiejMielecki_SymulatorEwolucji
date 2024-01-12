@@ -34,6 +34,19 @@ public class SimulationEngine {
 
     }
 
+    public void pause() throws InterruptedException {
+        for(Thread currThread : threads){
+            currThread.wait();
+        }
+    }
+
+    public void go(){
+        for(Thread currThread : threads){
+            currThread.notify();
+        }
+    }
+
+
     public void runAsyncInThreadPool() throws InterruptedException {
         for(Simulation simulation : simulations){
             executorService.submit(simulation);

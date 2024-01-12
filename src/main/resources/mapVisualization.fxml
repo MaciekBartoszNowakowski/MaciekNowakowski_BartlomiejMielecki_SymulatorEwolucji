@@ -3,6 +3,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             minHeight="550.0" minWidth="850.0"
@@ -12,6 +14,13 @@
     <center>
         <GridPane fx:id="mapGrid" hgap="0" vgap="0" gridLinesVisible="true" alignment="CENTER"/>
     </center>
+
+    <bottom>
+        <HBox spacing="10">
+            <Button text="Play" onAction="#onPlayClicked"/>
+            <Button text="Pause" onAction="#onPauseClicked"/>
+        </HBox>
+    </bottom>
 
 
 </BorderPane>

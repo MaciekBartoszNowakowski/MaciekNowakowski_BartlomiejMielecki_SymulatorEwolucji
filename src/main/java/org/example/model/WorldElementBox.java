@@ -17,12 +17,9 @@ public class WorldElementBox extends VBox {
 
     private Label label;
 
-    private Label grassLabel;
-
     public WorldElementBox(MapField mapField, Vector2d vector2d) {
         this.mapField = mapField;
         this.vector2d = vector2d;
-        this.setStyle("-fx_background-color: green;");
         this.label = new Label("");
         this.setAlignment(Pos.CENTER);
         this.getChildren().addAll(label);
@@ -35,23 +32,15 @@ public class WorldElementBox extends VBox {
 
     public void update() {
         this.amountOfAnimals = mapField.animals.size();
-        this.getChildren().removeAll(label, grassLabel);
+        this.getChildren().removeAll(label);
         setCustomBackground();
         if (this.amountOfAnimals != 0) {
             this.label = new Label(amountOfAnimals + "");
         } else {
             this.label = new Label();
         }
-        if(isGrassPlaced()){
-            this.grassLabel=new Label("*");
-        }else{
-            this.grassLabel=new Label("");
-        }
-
         this.setAlignment(Pos.CENTER);
-        this.setStyle("-fx_background-color: green;");
-        this.getChildren().addAll(label, grassLabel);
-        this.setStyle("-fx_background-color: green;");
+        this.getChildren().addAll(label);
     }
 
     public Vector2d getPosition(){

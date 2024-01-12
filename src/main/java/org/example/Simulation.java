@@ -2,7 +2,7 @@ package org.example;
 
 import org.example.model.WorldMap;
 
-public class Simulation {
+public class Simulation implements Runnable {
 
     private WorldMap worldMap;
 
@@ -13,6 +13,11 @@ public class Simulation {
     public void run() {
         while (true) {
             worldMap.dayCycle();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

@@ -88,4 +88,9 @@ public class MapField {
     public void setPreferred(boolean preferred) {
         this.preferred = preferred;
     }
+
+
+    public boolean isGrass(){
+        return grass != null;
+    }
 }

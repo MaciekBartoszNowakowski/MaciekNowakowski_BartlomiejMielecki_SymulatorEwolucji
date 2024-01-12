@@ -1,14 +1,10 @@
 package org.example.presenter;
 
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.SimulationApp;
 import javafx.scene.control.ComboBox;
+import org.example.SimulationApp;
 import org.example.model.*;
 
 public class MenuPresenter {
@@ -47,29 +43,24 @@ public class MenuPresenter {
     private WorldMap worldMap;
 
 
-
-
-
     public void onSimulationStartClicked() throws Exception {
 
-        String mutationName=mutationTypes.getValue();
-        if (mutationName.equals("Standard Mutation")){
-            mutationSystem=new StandardMutation(miniMutation.getValue(),maksiMutation.getValue());
+        String mutationName = mutationTypes.getValue();
+        if (mutationName.equals("Standard Mutation")) {
+            mutationSystem = new StandardMutation(miniMutation.getValue(), maksiMutation.getValue());
+        } else {
+            mutationSystem = new SlightMutation(miniMutation.getValue(), maksiMutation.getValue());
         }
-        else{
-            mutationSystem=new SlightMutation(miniMutation.getValue(),maksiMutation.getValue());
-        }
-        String worldName=worldType.getValue();
+        String worldName = worldType.getValue();
 
-        if (worldName.equals("Earth")){
-            worldMap=new Earth(height.getValue(), width.getValue(), animalEnergy.getValue(), animalsAmount.getValue(),
-                    codeLength.getValue(), dailyGrowth.getValue(),grassEnergy.getValue(), healthyEnergyAmount.getValue()
-                    , partitionEnergy.getValue(),mutationSystem );
-        }
-        else{
-            worldMap=new HellGate(height.getValue(), width.getValue(), animalEnergy.getValue(), animalsAmount.getValue(),
-                    codeLength.getValue(), dailyGrowth.getValue(),grassEnergy.getValue(), healthyEnergyAmount.getValue()
-                    , partitionEnergy.getValue(),mutationSystem );
+        if (worldName.equals("Earth")) {
+            worldMap = new Earth(height.getValue(), width.getValue(), animalEnergy.getValue(), animalsAmount.getValue(),
+                    codeLength.getValue(), dailyGrowth.getValue(), grassEnergy.getValue(), healthyEnergyAmount.getValue()
+                    , partitionEnergy.getValue(), mutationSystem);
+        } else {
+            worldMap = new HellGate(height.getValue(), width.getValue(), animalEnergy.getValue(), animalsAmount.getValue(),
+                    codeLength.getValue(), dailyGrowth.getValue(), grassEnergy.getValue(), healthyEnergyAmount.getValue()
+                    , partitionEnergy.getValue(), mutationSystem);
 
         }
 
@@ -77,8 +68,7 @@ public class MenuPresenter {
 
 
         Stage stage = new Stage();
-//        SimulationApp simulationApp = new SimulationApp(stage);
-
+        SimulationApp simulationApp = new SimulationApp(stage, worldMap);
 
     }
 }

@@ -10,14 +10,13 @@ public class HellGate extends AbstractWorldMap{
 
     @Override
     public Vector2d canMoveTo(Animal animal){
-        animal.setEnergy((int) (animal.getEnergy()*energyUsed));
         Vector2d newPosition = animal.nextPosition();
         Vector2d oldPosition = animal.getPosition();
         Vector2d correctPosition = oldPosition;
         if (super.canMoveTo(animal).equals(newPosition)){
             return newPosition;
         }
-
+        animal.setEnergy((int) (animal.getEnergy() - animal.getEnergy()*energyUsed));
         if (fields.size()==1) return oldPosition;
 
         while (correctPosition.equals(oldPosition)) {

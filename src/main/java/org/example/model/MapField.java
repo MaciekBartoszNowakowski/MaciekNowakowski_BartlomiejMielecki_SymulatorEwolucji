@@ -73,7 +73,7 @@ public class MapField {
         List<Animal> children = new ArrayList<>();
         List<Animal> sortedAnimals = sortByStronger(animals);
         int i = sortedAnimals.size() - 1;
-        while (i > 1){
+        while (i > 0){
             Animal parent1 = sortedAnimals.remove(i);
             if (parent1.getEnergy() < energyToReproduce) return children;
             Animal parent2 = sortedAnimals.remove(i-1);
@@ -92,5 +92,14 @@ public class MapField {
 
     public boolean isGrass(){
         return grass != null;
+    }
+
+    @Override
+    public String toString() {
+        List<String> s = new ArrayList<>();
+        animals.forEach(animal -> {
+            s.add(animal.toString());
+        });
+        return s.toString();
     }
 }

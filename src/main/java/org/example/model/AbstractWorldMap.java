@@ -65,6 +65,7 @@ public abstract class AbstractWorldMap implements WorldMap{
             int x = rand.nextInt(width);
             int y = rand.nextInt(height);
             Vector2d position = new Vector2d(x, y);
+            System.out.println(startEnergy);
             Animal animal = new Animal(position, generateNewGeneticCode(), startEnergy);
             MapField field = fields.get(position);
             field.placeAnimal(animal);
@@ -105,7 +106,6 @@ public abstract class AbstractWorldMap implements WorldMap{
     private void removeCorpses(){
         for (int i = 0; i < animals.size(); i++) {
             Animal animal = animals.get(i);
-            animal.subtractEnergy(1);
             if (animal.getEnergy() <= 0){
                 fields.get(animal.getPosition()).removeAnimal(animal);
                 animals.remove(animal);
@@ -131,11 +131,12 @@ public abstract class AbstractWorldMap implements WorldMap{
     }
 
     public void dayCycle(){
+        System.out.println(animals.size());
         removeCorpses();
-
-        mapChanged("NewDay");
-        System.out.println("NewDay");
         moveAnimals();
+        animals.forEach(animal -> {
+            System.out.println(animal.toString());
+        });
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 MapField currentField = fields.get(new Vector2d(j, i));
@@ -144,6 +145,8 @@ public abstract class AbstractWorldMap implements WorldMap{
                 if (newAnimals != null && !newAnimals.isEmpty()) animals.addAll(newAnimals);
             }
         }
+        mapChanged("NewDay");
+        System.out.println("NewDay");
         growGrass();
     }
 

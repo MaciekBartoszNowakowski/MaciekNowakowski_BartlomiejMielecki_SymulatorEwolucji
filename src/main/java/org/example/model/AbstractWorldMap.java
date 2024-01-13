@@ -6,6 +6,7 @@ public abstract class AbstractWorldMap implements WorldMap{
     protected final Map<Vector2d, MapField> fields = new HashMap<>();
     protected List<Animal> animals = new ArrayList<>();
     protected List<Grass> grasses = new ArrayList<>();
+    protected int worldAge;
     protected int width;
     protected int height;
     protected int geneticLength;
@@ -133,8 +134,10 @@ public abstract class AbstractWorldMap implements WorldMap{
     }
 
     public void dayCycle(){
+        worldAge += 1;
         removeCorpses();
         updateStatistics();
+
         mapChanged("NewDay");
         System.out.println("NewDay");
         moveAnimals();
@@ -260,7 +263,9 @@ public abstract class AbstractWorldMap implements WorldMap{
         }
     }
 
-
+    public int getWorldAge(){
+        return worldAge;
+    }
 
 
 }

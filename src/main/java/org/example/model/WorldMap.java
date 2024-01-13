@@ -25,6 +25,7 @@ public interface WorldMap {
     int getWidth();
 
     Statistics getStatistics();
+    int getWorldAge();
 
     Map<Vector2d, MapField> getFields();
 

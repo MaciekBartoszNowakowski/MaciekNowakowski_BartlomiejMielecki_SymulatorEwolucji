@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -22,11 +23,15 @@ public class SimulationPresenter implements MapChangeListener {
     private static final double CELL_WIDTH = 20;
     private static final double CELL_HEIGHT = 20;
 
+    boolean tracking = false;
+
     private SimulationEngine simulationEngine;
 
     private Simulation simulation;
 
-    private WorldMap worldMap;
+    public WorldMap worldMap;
+
+    public Animal animalTracked = null;
 
     @FXML
     private GridPane mapGrid;
@@ -50,9 +55,19 @@ public class SimulationPresenter implements MapChangeListener {
     @FXML
     private Label averageChildren;
     @FXML
-    public Label averageEnergy;
+    private Label averageEnergy;
 
-    private List<WorldElementBox> fieldBoxes= new ArrayList<>();
+    public Label genotype;
+    public Label currentGenome;
+    public Label grassCount;
+    public Label childrenAmount;
+    public Label descendantsAmount;
+    public Label animalAge;
+    public Label deathDay;
+    public HBox animalStats;
+
+    public int animalDeathDay = 0;
+    private List<WorldElementBox> fieldBoxes = new ArrayList<>();
 
     public void setWorldMap(WorldMap worldMap) {
         this.worldMap = worldMap;
@@ -117,9 +132,29 @@ public class SimulationPresenter implements MapChangeListener {
         averageChildren.setText(String.valueOf(statistics.getAverageChildren()));
     }
 
+    public void animalStatistics(){
+        if(!tracking) {
+            animalStats.setVisible(false);
+            return;
+        }
+        genotype.setText(animalTracked.getGeneticCode());
+        currentGenome.setText(String.valueOf(animalTracked.getCurrentGenome()));
+        grassCount.setText(String.valueOf(animalTracked.getGrassCount()));
+        childrenAmount.setText(String.valueOf(animalTracked.getChildrenAmount()));
+        descendantsAmount.setText(String.valueOf(animalTracked.getOffspringsAmount()));
+        animalAge.setText(String.valueOf(animalTracked.getAge()));
+        if (animalDeathDay == 0){
+            if (!worldMap.getAnimals().contains(animalTracked)) {
+                animalDeathDay = worldMap.getWorldAge();
+                deathDay.setText(String.valueOf(animalDeathDay));
+            }
+        }
+    }
+
     @Override
     public void mapChanged(WorldMap worldMap, String message) {
         Platform.runLater(() -> {
+            animalStatistics();
             updateStatistics();
             drawMap(message);
         });
@@ -164,5 +199,13 @@ public class SimulationPresenter implements MapChangeListener {
             if (mostCommonGenotype.contains(currBox.getPosition()))currBox.setBackground(new Background(new BackgroundFill(Color.rgb(150,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
+    }
+
+    public Simulation getSimulation() {
+        return simulation;
+    }
+
+    public void setTracking(boolean value){
+        tracking = value;
     }
 }

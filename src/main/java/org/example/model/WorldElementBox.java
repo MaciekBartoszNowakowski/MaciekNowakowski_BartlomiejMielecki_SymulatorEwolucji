@@ -15,12 +15,15 @@ public class WorldElementBox extends VBox {
     private int amountOfAnimals = 0;
 
     private boolean grassPlaced = false;
+    SimulationPresenter simulationPresenter;
 
     private Label label;
+
 
     public WorldElementBox(MapField mapField, Vector2d vector2d, SimulationPresenter simulationPresenter) {
         this.mapField = mapField;
         this.vector2d = vector2d;
+        this.simulationPresenter = simulationPresenter;
         this.label = new Label("");
         this.setAlignment(Pos.CENTER);
         this.getChildren().addAll(label);
@@ -63,6 +66,13 @@ public class WorldElementBox extends VBox {
     }
 
     private void handleMouseClicked(){
-        System.out.println("Kliknięto na pozycji: " + vector2d.toString());
+        if (!simulationPresenter.getSimulation().isPause) return;
+        if(mapField.animals.isEmpty()) return;
+        simulationPresenter.setTracking(true);
+        simulationPresenter.animalStats.setVisible(true);
+        Animal animal = mapField.sortByStronger(mapField.animals).get(mapField.animals.size()-1);
+        simulationPresenter.animalTracked = animal;
+        simulationPresenter.animalDeathDay = 0;
+        simulationPresenter.animalStatistics();
     }
 }

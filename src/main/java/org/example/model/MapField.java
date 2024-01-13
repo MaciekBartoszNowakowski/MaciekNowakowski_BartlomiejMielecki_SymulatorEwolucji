@@ -40,7 +40,7 @@ public class MapField {
     }
 
 
-    private List<Animal> sortByStronger(List<Animal> animals){
+    public List<Animal> sortByStronger(List<Animal> animals){
         List<Animal> animalsSorted = new ArrayList<>(animals);
         animalsSorted.sort((a, b) -> {
             if (a.getEnergy() > b.getEnergy()){
@@ -65,7 +65,9 @@ public class MapField {
         if (grass == null) return null;
         List<Animal> sortedAnimals = sortByStronger(animals);
         System.out.println(sortedAnimals);
-        sortedAnimals.get(sortedAnimals.size()-1).addEnergy(energyFromGrass);
+        Animal animal = sortedAnimals.get(sortedAnimals.size()-1);
+        animal.addEnergy(energyFromGrass);
+        animal.eatGrass();
         System.out.println(sortedAnimals);
         Grass grass1 = grass;
         this.removeGrass();

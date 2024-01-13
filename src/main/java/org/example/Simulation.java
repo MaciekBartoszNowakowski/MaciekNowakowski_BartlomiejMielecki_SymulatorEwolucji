@@ -6,7 +6,7 @@ public class Simulation implements Runnable {
 
     private WorldMap worldMap;
 
-    boolean isPause=false;
+    public boolean isPause=false;
 
     public Simulation(WorldMap worldMap) {
         this.worldMap = worldMap;

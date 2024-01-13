@@ -15,6 +15,8 @@ public class Animal implements WorldElement {
 
     public int age;
 
+    public int grassCount;
+
     public List<Animal> children = new LinkedList<>();
 
     public List<Animal> parents = new LinkedList<>();
@@ -137,5 +139,13 @@ public class Animal implements WorldElement {
     @Override
     public String toString(){
         return position.toString() + orientation +" Energy "+ energy +" ID "+myId + " currGenome " + geneticCode.charAt(currentGenome) + " " + geneticCode;
+    }
+
+    public void eatGrass(){
+        grassCount += 1;
+    }
+
+    public int getGrassCount(){
+        return grassCount;
     }
 }

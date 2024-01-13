@@ -12,7 +12,38 @@
 
 
     <center>
-        <GridPane fx:id="mapGrid" hgap="0" vgap="0" gridLinesVisible="true" alignment="CENTER"/>
+        <HBox spacing="10" alignment="CENTER">
+            <GridPane fx:id="mapGrid" hgap="0" vgap="0" gridLinesVisible="true" alignment="CENTER"/>
+
+            <HBox spacing="10">
+                <VBox spacing="5">
+                    <Label text="Statystyki"/>
+                    <Label text="Liczba zwierzaków"/>
+                    <Label text="Liczba traw"/>
+                    <Label text="Liczba wolnych pól"/>
+                    <Label text="Średni poziom energii"/>
+                    <Label text="Średnia długość życia"/>
+                    <Label text="Średnia liczba potomków"/>
+                </VBox>
+                <VBox spacing="5">
+                    <Label/>
+                    <Label fx:id="totalAnimals"/>
+                    <Label fx:id="totalGrasses"/>
+                    <Label fx:id="freeFields"/>
+                    <Label fx:id="averageEnergy"/>
+                    <Label fx:id="averageLifespan"/>
+                    <Label fx:id="averageChildren"/>
+                </VBox>
+                <VBox spacing="5">
+                    <Label text="Najpopularniejsze genotypy"/>
+                    <Label fx:id="genotype1"/>
+                    <Label fx:id="genotype2"/>
+                    <Label fx:id="genotype3"/>
+                    <Label fx:id="genotype4"/>
+                </VBox>
+            </HBox>
+
+        </HBox>
     </center>
 
     <bottom>

@@ -15,11 +15,11 @@ public class Simulation implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(200);
                 while (!isPause) {
                     worldMap.dayCycle();
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }

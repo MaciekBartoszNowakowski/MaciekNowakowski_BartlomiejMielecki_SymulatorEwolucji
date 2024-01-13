@@ -60,11 +60,16 @@ public class MapField {
         return animalsSorted;
     }
 
-    public void eatGrass(){
-        if (animals.isEmpty()) return;
+    public Grass eatGrass(){
+        if (animals.isEmpty()) return null;
+        if (grass == null) return null;
         List<Animal> sortedAnimals = sortByStronger(animals);
+        System.out.println(sortedAnimals);
         sortedAnimals.get(sortedAnimals.size()-1).addEnergy(energyFromGrass);
+        System.out.println(sortedAnimals);
+        Grass grass1 = grass;
         this.removeGrass();
+        return grass1;
     }
 
     public List<Animal> reproduction(){
@@ -72,16 +77,23 @@ public class MapField {
         ReproductionSystem rp = new ReproductionSystem(energyUsed, mutationSystem);
         List<Animal> children = new ArrayList<>();
         List<Animal> sortedAnimals = sortByStronger(animals);
+//        int i = sortedAnimals.size() - 1;
+//        while (i > 0){
+//            Animal parent1 = sortedAnimals.remove(i);
+//            if (parent1.getEnergy() < energyToReproduce) return children;
+//            Animal parent2 = sortedAnimals.remove(i-1);
+//            Animal child = rp.reproduce(parent1, parent2);
+//            animals.add(child);
+//            children.add(child);
+//            i -= 2;
+//        }
         int i = sortedAnimals.size() - 1;
-        while (i > 0){
-            Animal parent1 = sortedAnimals.remove(i);
-            if (parent1.getEnergy() < energyToReproduce) return children;
-            Animal parent2 = sortedAnimals.remove(i-1);
-            Animal child = rp.reproduce(parent1, parent2);
-            animals.add(child);
-            children.add(child);
-            i -= 2;
-        }
+        if (i < 1) return null;
+        Animal parent1 = sortedAnimals.remove(i);
+        if (parent1.getEnergy() < energyToReproduce) return null;
+        Animal parent2 = sortedAnimals.remove(i-1);
+        Animal child = rp.reproduce(parent1, parent2);
+        children.add(child);
         return children;
     }
 

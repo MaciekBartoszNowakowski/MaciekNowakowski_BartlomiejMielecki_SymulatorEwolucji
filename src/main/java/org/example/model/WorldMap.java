@@ -1,5 +1,6 @@
 package org.example.model;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,9 +24,11 @@ public interface WorldMap {
 
     int getWidth();
 
+    Statistics getStatistics();
+
     Map<Vector2d, MapField> getFields();
 
+    List<Animal> getAnimals();
 
-
-
+    List<Grass> getGrasses();
 }

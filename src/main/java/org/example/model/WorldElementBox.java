@@ -2,8 +2,9 @@ package org.example.model;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
+import org.example.presenter.SimulationPresenter;
 
 public class WorldElementBox extends VBox {
 
@@ -17,12 +18,18 @@ public class WorldElementBox extends VBox {
 
     private Label label;
 
-    public WorldElementBox(MapField mapField, Vector2d vector2d) {
+    public WorldElementBox(MapField mapField, Vector2d vector2d, SimulationPresenter simulationPresenter) {
         this.mapField = mapField;
         this.vector2d = vector2d;
         this.label = new Label("");
         this.setAlignment(Pos.CENTER);
         this.getChildren().addAll(label);
+
+        this.setOnMouseClicked(mouseEvent -> {
+            if(mouseEvent.getButton() == MouseButton.PRIMARY){
+                handleMouseClicked();
+            }
+        });
     }
 
 
@@ -49,5 +56,13 @@ public class WorldElementBox extends VBox {
 
     public boolean isGrassPlaced(){
         return grassPlaced;
+    }
+
+    public boolean isPreferred(){
+        return mapField.preferred;
+    }
+
+    private void handleMouseClicked(){
+        System.out.println("Kliknięto na pozycji: " + vector2d.toString());
     }
 }

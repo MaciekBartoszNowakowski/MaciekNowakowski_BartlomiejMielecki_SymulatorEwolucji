@@ -10,13 +10,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.example.Simulation;
 import org.example.SimulationEngine;
-import org.example.model.MapChangeListener;
-import org.example.model.WorldElementBox;
-import org.example.model.WorldMap;
-import org.example.model.Vector2d;
+import org.example.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class SimulationPresenter implements MapChangeListener {
 
@@ -31,6 +30,27 @@ public class SimulationPresenter implements MapChangeListener {
 
     @FXML
     private GridPane mapGrid;
+
+    @FXML
+    private Label totalAnimals;
+    @FXML
+    private Label totalGrasses;
+    @FXML
+    private Label freeFields;
+    @FXML
+    private Label genotype1;
+    @FXML
+    private Label genotype2;
+    @FXML
+    private Label genotype3;
+    @FXML
+    private Label genotype4;
+    @FXML
+    private Label averageLifespan;
+    @FXML
+    private Label averageChildren;
+    @FXML
+    public Label averageEnergy;
 
     private List<WorldElementBox> fieldBoxes= new ArrayList<>();
 
@@ -82,9 +102,25 @@ public class SimulationPresenter implements MapChangeListener {
 
     }
 
+    private void updateStatistics(){
+        Statistics statistics = worldMap.getStatistics();
+        totalAnimals.setText(String.valueOf(statistics.getTotalAnimals()));
+        totalGrasses.setText(String.valueOf(statistics.getTotalGrass()));
+        freeFields.setText(String.valueOf(statistics.getFreeFields()));
+        List<Map.Entry<String, Integer>> topGenotypes = statistics.getTopGenotypes(4);
+        if(!topGenotypes.isEmpty()) genotype1.setText(topGenotypes.get(0).getKey() + ": " + topGenotypes.get(0).getValue());
+        if(topGenotypes.size() > 1) genotype2.setText(topGenotypes.get(1).getKey() + ": " + topGenotypes.get(1).getValue());
+        if(topGenotypes.size() > 2) genotype3.setText(topGenotypes.get(2).getKey() + ": " + topGenotypes.get(2).getValue());
+        if(topGenotypes.size() > 3) genotype4.setText(topGenotypes.get(3).getKey() + ": " + topGenotypes.get(3).getValue());
+        averageEnergy.setText(String.valueOf(statistics.getAverageEnergy()));
+        averageLifespan.setText(String.valueOf(statistics.getAverageLifespan()));
+        averageChildren.setText(String.valueOf(statistics.getAverageChildren()));
+    }
+
     @Override
     public void mapChanged(WorldMap worldMap, String message) {
         Platform.runLater(() -> {
+            updateStatistics();
             drawMap(message);
         });
     }
@@ -97,7 +133,7 @@ public class SimulationPresenter implements MapChangeListener {
 
 
         worldMap.getFields().forEach((key, value)->{
-            fieldBoxes.add(new WorldElementBox(value, key));
+            fieldBoxes.add(new WorldElementBox(value, key, this));
             });
 
         simulations.add(simulation);
@@ -112,5 +148,21 @@ public class SimulationPresenter implements MapChangeListener {
 
     public void onPauseClicked(ActionEvent actionEvent) throws InterruptedException {
         simulation.setPause(true);
+
+        List<Vector2d> mostCommonGenotype = new ArrayList<>();
+        String genotype = worldMap.getStatistics().getTopGenotypes(1).get(0).getKey();
+        for(Animal animal : worldMap.getAnimals()){
+            if(Objects.equals(animal.getGeneticCode(), genotype)){
+                mostCommonGenotype.add(animal.getPosition());
+            }
+        }
+
+
+        for(WorldElementBox currBox : fieldBoxes){
+            if(currBox.isPreferred()) currBox.setBackground(new Background(new BackgroundFill(Color.rgb(0,155,0), CornerRadii.EMPTY, Insets.EMPTY)));
+            if (currBox.isGrassPlaced()){currBox.setBackground(new Background(new BackgroundFill(Color.rgb(0,255,0), CornerRadii.EMPTY, Insets.EMPTY)));}
+            if (mostCommonGenotype.contains(currBox.getPosition()))currBox.setBackground(new Background(new BackgroundFill(Color.rgb(150,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+        }
+
     }
 }

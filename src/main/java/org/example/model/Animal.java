@@ -13,6 +13,8 @@ public class Animal implements WorldElement {
     private int currentGenome;
     private int energy;
 
+    public int age;
+
     public List<Animal> children = new LinkedList<>();
 
     public List<Animal> parents = new LinkedList<>();
@@ -30,6 +32,7 @@ public class Animal implements WorldElement {
         this.geneticCode = geneticCode;
         this.geneticLength = geneticCode.length();
         this.energy = energy;
+        age = 0;
         myId=id;
         id+=1;
     }
@@ -59,7 +62,9 @@ public class Animal implements WorldElement {
         return position.add(nextOrientation().toUnitVector());
     }
 
-
+    public void addAge(){
+        this.age += 1;
+    }
     @Override
     public Vector2d getPosition() {
         return position;
@@ -103,6 +108,10 @@ public class Animal implements WorldElement {
 
     public int getChildrenAmount(){
         return children.size();
+    }
+
+    public int getAge(){
+        return age;
     }
 
     public Set<Animal> getOffspring(){

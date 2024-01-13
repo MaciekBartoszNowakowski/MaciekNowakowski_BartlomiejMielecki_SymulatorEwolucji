@@ -18,6 +18,7 @@ public abstract class AbstractWorldMap implements WorldMap{
     protected MutationSystem mutationSystem;
     protected double equatorStart;
     protected double equatorEnd;
+    protected Statistics statistics = new Statistics(this);
 
     public List<MapChangeListener> listeners = new ArrayList<>();
 
@@ -116,6 +117,7 @@ public abstract class AbstractWorldMap implements WorldMap{
 
     private void moveAnimals(){
         for(Animal animal : animals){
+            animal.addAge();
             move(animal);
         }
     }
@@ -131,22 +133,20 @@ public abstract class AbstractWorldMap implements WorldMap{
     }
 
     public void dayCycle(){
-        System.out.println(animals.size());
         removeCorpses();
+        updateStatistics();
+        mapChanged("NewDay");
+        System.out.println("NewDay");
         moveAnimals();
-        animals.forEach(animal -> {
-            System.out.println(animal.toString());
-        });
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 MapField currentField = fields.get(new Vector2d(j, i));
-                currentField.eatGrass();
+                Grass grass = currentField.eatGrass();
+                if (grass != null) grasses.remove(grass);
                 List<Animal> newAnimals =  currentField.reproduction();
                 if (newAnimals != null && !newAnimals.isEmpty()) animals.addAll(newAnimals);
             }
         }
-        mapChanged("NewDay");
-        System.out.println("NewDay");
         growGrass();
     }
 
@@ -236,6 +236,14 @@ public abstract class AbstractWorldMap implements WorldMap{
 
     public List<Grass> getGrasses() {
         return grasses;
+    }
+
+    public Statistics getStatistics(){
+        return statistics;
+    }
+
+    public void updateStatistics(){
+        statistics.update();
     }
 
 

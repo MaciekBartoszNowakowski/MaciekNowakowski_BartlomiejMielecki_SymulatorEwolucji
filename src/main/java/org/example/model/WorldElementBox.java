@@ -72,7 +72,8 @@ public class WorldElementBox extends VBox {
         simulationPresenter.animalStats.setVisible(true);
         Animal animal = mapField.sortByStronger(mapField.animals).get(mapField.animals.size()-1);
         simulationPresenter.animalTracked = animal;
-        simulationPresenter.animalDeathDay = 0;
         simulationPresenter.animalStatistics();
+        simulationPresenter.animalDeathDay = 0;
+        simulationPresenter.clearDeathDay();
     }
 }

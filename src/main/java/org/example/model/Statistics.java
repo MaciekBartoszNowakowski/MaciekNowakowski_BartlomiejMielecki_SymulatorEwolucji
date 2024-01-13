@@ -60,7 +60,7 @@ public class Statistics {
     private void updateAverages(){
         averageEnergy = (double) round(calculateAverageEnergy() * 100) /100;
         averageLifespan = (double) round(calculateAverageLifespan() * 100) /100;
-        //averageChildren = (double) round(calculateAverageChildren() * 100) /100;
+        averageChildren = (double) round(calculateAverageChildren() * 100) /100;
     }
 
     private double calculateAverageEnergy(){
@@ -93,20 +93,10 @@ public class Statistics {
         double totalDescendants = 0;
 
         for (Animal animal : worldMap.getAnimals()) {
-            totalDescendants += calculateDescendantsCount(animal);
+            totalDescendants += animal.getOffspringsAmount();
         }
 
         return totalDescendants / worldMap.getAnimals().size();
-    }
-
-    private int calculateDescendantsCount(Animal animal) {
-        int descendantsCount = animal.getChildrenAmount();
-
-        for (Animal child : animal.getOffspring()) {
-            descendantsCount += calculateDescendantsCount(child);
-        }
-
-        return descendantsCount;
     }
 
     private void updateDead(){

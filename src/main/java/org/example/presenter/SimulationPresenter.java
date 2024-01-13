@@ -181,6 +181,11 @@ public class SimulationPresenter implements MapChangeListener {
         simulation.setPause(false);
     }
 
+    public void onStopTrackingClicked(ActionEvent actionEvent) {
+        tracking = false;
+    }
+
+
     public void onPauseClicked(ActionEvent actionEvent) throws InterruptedException {
         simulation.setPause(true);
 
@@ -199,6 +204,10 @@ public class SimulationPresenter implements MapChangeListener {
             if (mostCommonGenotype.contains(currBox.getPosition()))currBox.setBackground(new Background(new BackgroundFill(Color.rgb(150,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
+    }
+
+    public void clearDeathDay() {
+        this.deathDay.setText("");
     }
 
     public Simulation getSimulation() {

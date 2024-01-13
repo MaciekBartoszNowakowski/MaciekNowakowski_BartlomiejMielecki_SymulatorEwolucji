@@ -20,12 +20,18 @@ public class Animal implements WorldElement {
     private MapDirection orientation;
     private Vector2d position;
 
+    public static int id=0;
+
+    private final int myId;
+
     public Animal(Vector2d Position, String geneticCode, int energy) {
         this.orientation = MapDirection.NORTH;
         this.position = Position;
         this.geneticCode = geneticCode;
         this.geneticLength = geneticCode.length();
         this.energy = energy;
+        myId=id;
+        id+=1;
     }
 
     @Override
@@ -41,10 +47,12 @@ public class Animal implements WorldElement {
         position = newPosition;
         orientation = nextOrientation();
         currentGenome = (currentGenome + 1) % geneticLength;
+        energy-=1;
     }
 
     public MapDirection nextOrientation(){
         int turns = geneticCode.charAt(currentGenome) - '0';
+        System.out.println(position.toString() + orientation +" Energy "+ energy +" ID "+myId);
         MapDirection newOrientation = orientation;
         for (int i = 0; i < turns; i++) {
             newOrientation = newOrientation.next();
@@ -121,4 +129,6 @@ public class Animal implements WorldElement {
     public void setOppositeOrientation() {
         this.orientation = this.orientation.opposite();
     }
+
+
 }

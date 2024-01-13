@@ -11,4 +11,21 @@ public interface WorldMap {
 
     Vector2d canMoveTo(Animal animal);
 
+
+    void register(MapChangeListener listener);
+    void unregister(MapChangeListener listener);
+
+
+    void mapChanged(String description);
+
+
+    int getHeight();
+
+    int getWidth();
+
+    Map<Vector2d, MapField> getFields();
+
+
+
+
 }

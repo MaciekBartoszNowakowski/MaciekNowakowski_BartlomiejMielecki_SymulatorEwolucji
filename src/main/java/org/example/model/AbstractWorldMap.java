@@ -19,6 +19,8 @@ public abstract class AbstractWorldMap implements WorldMap{
     protected double equatorStart;
     protected double equatorEnd;
 
+    public List<MapChangeListener> listeners = new ArrayList<>();
+
     public AbstractWorldMap(int height, int width, int startEnergy, int animalQuantity, int geneticLength,
                             int grassPerDay, int energyFromGrass, int energyToReproduce, double energyUsed, MutationSystem mutationSystem
                             ){
@@ -130,6 +132,9 @@ public abstract class AbstractWorldMap implements WorldMap{
 
     public void dayCycle(){
         removeCorpses();
+
+        mapChanged("NewDay");
+        System.out.println("NewDay");
         moveAnimals();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -229,4 +234,22 @@ public abstract class AbstractWorldMap implements WorldMap{
     public List<Grass> getGrasses() {
         return grasses;
     }
+
+
+    public void register(MapChangeListener listener){
+        listeners.add(listener);
+    }
+    public void unregister(MapChangeListener listener){
+        listeners.remove(listener);
+    }
+
+    public void mapChanged(String description) {
+        for (MapChangeListener listener : listeners) {
+            listener.mapChanged(this,description);
+        }
+    }
+
+
+
+
 }

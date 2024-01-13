@@ -28,4 +28,22 @@ public class HellGate extends AbstractWorldMap{
         }
         return correctPosition;
     }
+
+    @Override
+    public String toString() {
+        return "HellGate{" +
+                ", animals=" + animals +
+                ", grasses=" + grasses +
+                ", width=" + width +
+                ", height=" + height +
+                ", geneticLength=" + geneticLength +
+                ", startEnergy=" + startEnergy +
+                ", animalQuantity=" + animalQuantity +
+                ", grassPerDay=" + grassPerDay +
+                ", energyFromGrass=" + energyFromGrass +
+                ", energyToReproduce=" + energyToReproduce +
+                ", energyUsed=" + energyUsed +
+                ", mutationSystem=" + mutationSystem +
+                '}';
+    }
 }

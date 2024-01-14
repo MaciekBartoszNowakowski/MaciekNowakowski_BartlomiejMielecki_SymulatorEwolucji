@@ -1,6 +1,7 @@
 package org.example.presenter;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
@@ -9,6 +10,7 @@ import org.example.model.*;
 
 public class MenuPresenter {
 
+    public CheckBox raportCheckobox;
     @FXML
     private Spinner<Integer> codeLength;
     @FXML
@@ -65,6 +67,11 @@ public class MenuPresenter {
         }
 
         System.out.println(worldMap);
+
+        if(raportCheckobox.isSelected()){
+            FileMapDisplay fileMapDisplay=new FileMapDisplay();
+            worldMap.register(fileMapDisplay);
+        }
 
 
         Stage stage = new Stage();

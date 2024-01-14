@@ -1,6 +1,7 @@
 package org.example.model;
 
 import java.util.Random;
+import java.util.*;
 
 public abstract class GenericMutation implements MutationSystem{
 
@@ -12,15 +13,25 @@ public abstract class GenericMutation implements MutationSystem{
         this.maksimal=maksimal;
     }
 
-    public abstract String singleMutation(String geneticCode);
+    public abstract String singleMutation(String geneticCode, int index);
 
     @Override
     public String mutate(String geneticCode) {
         Random random =new Random();
         int mutationAmount = random.nextInt(maksimal-minimal+1)+minimal;
 
-        for (int i=0; i<mutationAmount;i++){;
-            geneticCode=singleMutation(geneticCode);
+        int codeLength= geneticCode.length();
+
+        List<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < codeLength; i++) {
+            indexes.add(i);
+        }
+
+        Collections.shuffle(indexes);
+
+        for (int i=0; i<mutationAmount;i++){
+
+            geneticCode=singleMutation(geneticCode,indexes.get(i));
         }
         return geneticCode;
     }

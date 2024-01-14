@@ -137,7 +137,7 @@ public class SimulationPresenter implements MapChangeListener {
 
 
         worldMap.getFields().forEach((key, value)->{
-            fieldBoxes.add(new WorldElementBox(value, key, this));
+            fieldBoxes.add(new WorldElementBox(value, key, this, worldMap.getEnergyToReproduce()));
             });
 
         simulations.add(simulation);

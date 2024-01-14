@@ -1,12 +1,13 @@
 package org.example.presenter;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.example.Simulation;
@@ -15,13 +16,16 @@ import org.example.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class SimulationPresenter implements MapChangeListener {
 
     private static final double CELL_WIDTH = 20;
     private static final double CELL_HEIGHT = 20;
+    public ListView<String> mapStatsHeadlines;
+    public ListView<String> mostCommonGenotypes;
+    public ListView<String> animalStats;
+    public ListView<String> animalStatsHeadlines;
 
     boolean tracking = false;
 
@@ -31,43 +35,16 @@ public class SimulationPresenter implements MapChangeListener {
 
     public WorldMap worldMap;
 
-    public Animal animalTracked = null;
 
     @FXML
     private GridPane mapGrid;
 
-    @FXML
-    private Label totalAnimals;
-    @FXML
-    private Label totalGrasses;
-    @FXML
-    private Label freeFields;
-    @FXML
-    private Label genotype1;
-    @FXML
-    private Label genotype2;
-    @FXML
-    private Label genotype3;
-    @FXML
-    private Label genotype4;
-    @FXML
-    private Label averageLifespan;
-    @FXML
-    private Label averageChildren;
-    @FXML
-    private Label averageEnergy;
+    public HBox animalStatsShow;
 
-    public Label genotype;
-    public Label currentGenome;
-    public Label grassCount;
-    public Label childrenAmount;
-    public Label descendantsAmount;
-    public Label animalAge;
-    public Label deathDay;
-    public HBox animalStats;
-
-    public int animalDeathDay = 0;
+    public ListView<String> mapStats;
     private List<WorldElementBox> fieldBoxes = new ArrayList<>();
+
+    private AnimalTracking animalTracking = null;
 
     public void setWorldMap(WorldMap worldMap) {
         this.worldMap = worldMap;
@@ -119,36 +96,28 @@ public class SimulationPresenter implements MapChangeListener {
 
     private void updateStatistics(){
         Statistics statistics = worldMap.getStatistics();
-        totalAnimals.setText(String.valueOf(statistics.getTotalAnimals()));
-        totalGrasses.setText(String.valueOf(statistics.getTotalGrass()));
-        freeFields.setText(String.valueOf(statistics.getFreeFields()));
-        List<Map.Entry<String, Integer>> topGenotypes = statistics.getTopGenotypes(4);
-        if(!topGenotypes.isEmpty()) genotype1.setText(topGenotypes.get(0).getKey() + ": " + topGenotypes.get(0).getValue());
-        if(topGenotypes.size() > 1) genotype2.setText(topGenotypes.get(1).getKey() + ": " + topGenotypes.get(1).getValue());
-        if(topGenotypes.size() > 2) genotype3.setText(topGenotypes.get(2).getKey() + ": " + topGenotypes.get(2).getValue());
-        if(topGenotypes.size() > 3) genotype4.setText(topGenotypes.get(3).getKey() + ": " + topGenotypes.get(3).getValue());
-        averageEnergy.setText(String.valueOf(statistics.getAverageEnergy()));
-        averageLifespan.setText(String.valueOf(statistics.getAverageLifespan()));
-        averageChildren.setText(String.valueOf(statistics.getAverageChildren()));
+        ObservableList<String> genotypes = FXCollections.observableArrayList();
+        genotypes.addAll(statistics.returnGenotypesList(10));
+        mostCommonGenotypes.setItems(genotypes);
+        ObservableList<String> statsHeadlines = FXCollections.observableArrayList();
+        statsHeadlines.addAll("Animals amount", "Grass amount", "Free fields amount", "Average energy", "Average lifespan", "Average offsprings amount");
+        mapStatsHeadlines.setItems(statsHeadlines);
+        ObservableList<String> stats = FXCollections.observableArrayList();
+        stats.addAll(statistics.returnStatisticsList());
+        mapStats.setItems(stats);
     }
 
     public void animalStatistics(){
         if(!tracking) {
-            animalStats.setVisible(false);
+            animalStatsShow.setVisible(false);
             return;
         }
-        genotype.setText(animalTracked.getGeneticCode());
-        currentGenome.setText(String.valueOf(animalTracked.getCurrentGenome()));
-        grassCount.setText(String.valueOf(animalTracked.getGrassCount()));
-        childrenAmount.setText(String.valueOf(animalTracked.getChildrenAmount()));
-        descendantsAmount.setText(String.valueOf(animalTracked.getOffspringsAmount()));
-        animalAge.setText(String.valueOf(animalTracked.getAge()));
-        if (animalDeathDay == 0){
-            if (!worldMap.getAnimals().contains(animalTracked)) {
-                animalDeathDay = worldMap.getWorldAge();
-                deathDay.setText(String.valueOf(animalDeathDay));
-            }
-        }
+        ObservableList<String> animalStatsHeadlines = FXCollections.observableArrayList();
+        animalStatsHeadlines.addAll("Genotype", "Current genome", "Grass eaten", "Children amount", "Offsprings amount", "Age", "Death day");
+        this.animalStatsHeadlines.setItems(animalStatsHeadlines);
+        ObservableList<String> animalStats = FXCollections.observableArrayList();
+        animalStats.addAll(animalTracking.returnAnimalStatistics());
+        this.animalStats.setItems(animalStats);
     }
 
     @Override
@@ -206,15 +175,15 @@ public class SimulationPresenter implements MapChangeListener {
 
     }
 
-    public void clearDeathDay() {
-        this.deathDay.setText("");
-    }
-
     public Simulation getSimulation() {
         return simulation;
     }
 
     public void setTracking(boolean value){
         tracking = value;
+    }
+
+    public void setAnimalTracking(Animal animal) {
+        this.animalTracking = new AnimalTracking(animal, worldMap);
     }
 }

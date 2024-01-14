@@ -45,6 +45,7 @@ public class WorldElementBox extends VBox {
         this.getChildren().removeAll(label);
         setCustomBackground();
         if (this.amountOfAnimals != 0) {
+            int animalEnergy = mapField.sortByStronger(mapField.animals).get(mapField.animals.size()-1).getEnergy();
             this.label = new Label(amountOfAnimals + "");
         } else {
             this.label = new Label();
@@ -69,11 +70,9 @@ public class WorldElementBox extends VBox {
         if (!simulationPresenter.getSimulation().isPause) return;
         if(mapField.animals.isEmpty()) return;
         simulationPresenter.setTracking(true);
-        simulationPresenter.animalStats.setVisible(true);
+        simulationPresenter.animalStatsShow.setVisible(true);
         Animal animal = mapField.sortByStronger(mapField.animals).get(mapField.animals.size()-1);
-        simulationPresenter.animalTracked = animal;
+        simulationPresenter.setAnimalTracking(animal);
         simulationPresenter.animalStatistics();
-        simulationPresenter.animalDeathDay = 0;
-        simulationPresenter.clearDeathDay();
     }
 }

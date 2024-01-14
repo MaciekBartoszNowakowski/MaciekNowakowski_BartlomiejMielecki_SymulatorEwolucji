@@ -25,6 +25,20 @@ public class Statistics {
         this.prevAnimals = new ArrayList<>();
     }
 
+    public List<String> returnStatisticsList(){
+        return Arrays.asList(String.valueOf(totalAnimals), String.valueOf(totalGrass),String.valueOf(freeFields),String.valueOf(averageEnergy),String.valueOf(averageLifespan),String.valueOf(averageChildren));
+    }
+
+    public List<String> returnGenotypesList(int n){
+        List<String> genotypes = new ArrayList<>();
+        List<Map.Entry<String, Integer>> topGenotypes = getTopGenotypes(n);
+        for (int i = 0; i < n; i++) {
+            if (topGenotypes.size()-1<i) break;
+            genotypes.add(topGenotypes.get(i).getKey() + ": " + topGenotypes.get(i).getValue());
+        }
+        return genotypes;
+    }
+
     public void update(){
         totalAnimals = worldMap.getAnimals().size();
         totalGrass = worldMap.getGrasses().size();

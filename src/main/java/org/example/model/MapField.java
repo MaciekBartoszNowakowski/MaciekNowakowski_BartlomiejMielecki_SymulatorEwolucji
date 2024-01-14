@@ -48,10 +48,16 @@ public class MapField {
             } else if (a.getEnergy() < b.getEnergy()) {
                 return  -1;
             } else {
-                if (a.getChildrenAmount() > b.getChildrenAmount()){
+                if(a.getAge() > b.getAge()){
                     return 1;
-                } else if (a.getChildrenAmount() < b.getChildrenAmount()) {
+                } else if (a.getAge() < b.getAge()) {
                     return -1;
+                } else {
+                    if (a.getChildrenAmount() > b.getChildrenAmount()){
+                        return 1;
+                    } else if (a.getChildrenAmount() < b.getChildrenAmount()) {
+                        return -1;
+                    }
                 }
             }
             return 0;

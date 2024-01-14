@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             minHeight="550.0" minWidth="850.0"
@@ -16,63 +16,33 @@
         <HBox spacing="10" alignment="CENTER">
 
             <GridPane fx:id="mapGrid" hgap="0" vgap="0" gridLinesVisible="true" alignment="CENTER"/>
-            <HBox spacing="10">
-                <VBox>
-                    <HBox spacing="5">
-                    <VBox spacing="5">
-                        <Label text="Statistics"/>
-                        <Label text="Animals amount"/>
-                        <Label text="Grass amount"/>
-                        <Label text="Free fields amount"/>
-                        <Label text="Average energy"/>
-                        <Label text="Average lifespan"/>
-                        <Label text="Average offspring amount"/>
+            <VBox>
+                <HBox>
+                    <VBox>
+                        <Label text="Map statistics"/>
+                        <ListView fx:id="mapStatsHeadlines" maxHeight="140" maxWidth="200" mouseTransparent="true"/>
                     </VBox>
-                    <VBox spacing="5">
+                    <VBox>
                         <Label/>
-                        <Label fx:id="totalAnimals"/>
-                        <Label fx:id="totalGrasses"/>
-                        <Label fx:id="freeFields"/>
-                        <Label fx:id="averageEnergy"/>
-                        <Label fx:id="averageLifespan"/>
-                        <Label fx:id="averageChildren"/>
+                        <ListView fx:id="mapStats" maxHeight="140" maxWidth="50" mouseTransparent="true"/>
                     </VBox>
-                    </HBox>
-                    <Label/>
-                    <Label/>
-                    <Label/>
-                    <HBox spacing="5" fx:id="animalStats">
-                        <VBox spacing="5">
-                            <Label text="Animal Statistics"/>
-                            <Label text="Genotype"/>
-                            <Label text="Genome"/>
-                            <Label text="Grass eaten"/>
-                            <Label text="Children amount"/>
-                            <Label text="Offspring amount"/>
-                            <Label text="Age"/>
-                            <Label text="Death day"/>
+                </HBox>
+                <Label text="Most common genotypes"/>
+                <ListView fx:id="mostCommonGenotypes" maxHeight="140" maxWidth="250"/>
+                <VBox>
+                    <HBox fx:id="animalStatsShow">
+                        <VBox>
+                            <Label text="Selected animal statistics"/>
+                            <ListView fx:id="animalStatsHeadlines" mouseTransparent="true" maxHeight="165" maxWidth="120"/>
                             <Button text="stop tracking" onAction="#onStopTrackingClicked"/>
                         </VBox>
-                        <VBox spacing="5">
+                        <VBox>
                             <Label/>
-                            <Label fx:id="genotype"/>
-                            <Label fx:id="currentGenome"/>
-                            <Label fx:id="grassCount"/>
-                            <Label fx:id="childrenAmount"/>
-                            <Label fx:id="descendantsAmount"/>
-                            <Label fx:id="animalAge"/>
-                            <Label fx:id="deathDay"/>
+                            <ListView fx:id="animalStats" mouseTransparent="true" maxHeight="165" maxWidth="130"/>
                         </VBox>
                     </HBox>
                 </VBox>
-                <VBox spacing="5">
-                    <Label text="Most common genotypes"/>
-                    <Label fx:id="genotype1"/>
-                    <Label fx:id="genotype2"/>
-                    <Label fx:id="genotype3"/>
-                    <Label fx:id="genotype4"/>
-                </VBox>
-            </HBox>
+            </VBox>
 
         </HBox>
     </center>

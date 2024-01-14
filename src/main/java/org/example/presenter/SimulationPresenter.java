@@ -1,38 +1,50 @@
 package org.example.presenter;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.example.Simulation;
 import org.example.SimulationEngine;
-import org.example.model.MapChangeListener;
-import org.example.model.WorldElementBox;
-import org.example.model.WorldMap;
-import org.example.model.Vector2d;
+import org.example.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SimulationPresenter implements MapChangeListener {
 
     private static final double CELL_WIDTH = 20;
     private static final double CELL_HEIGHT = 20;
+    public ListView<String> mapStatsHeadlines;
+    public ListView<String> mostCommonGenotypes;
+    public ListView<String> animalStats;
+    public ListView<String> animalStatsHeadlines;
+
+    boolean tracking = false;
 
     private SimulationEngine simulationEngine;
 
     private Simulation simulation;
 
-    private WorldMap worldMap;
+    public WorldMap worldMap;
+
 
     @FXML
     private GridPane mapGrid;
 
-    private List<WorldElementBox> fieldBoxes= new ArrayList<>();
+    public HBox animalStatsShow;
+
+    public ListView<String> mapStats;
+    private List<WorldElementBox> fieldBoxes = new ArrayList<>();
+
+    private AnimalTracking animalTracking = null;
 
     public void setWorldMap(WorldMap worldMap) {
         this.worldMap = worldMap;
@@ -82,9 +94,37 @@ public class SimulationPresenter implements MapChangeListener {
 
     }
 
+    private void updateStatistics(){
+        Statistics statistics = worldMap.getStatistics();
+        ObservableList<String> genotypes = FXCollections.observableArrayList();
+        genotypes.addAll(statistics.returnGenotypesList(10));
+        mostCommonGenotypes.setItems(genotypes);
+        ObservableList<String> statsHeadlines = FXCollections.observableArrayList();
+        statsHeadlines.addAll("Animals amount", "Grass amount", "Free fields amount", "Average energy", "Average lifespan", "Average offsprings amount");
+        mapStatsHeadlines.setItems(statsHeadlines);
+        ObservableList<String> stats = FXCollections.observableArrayList();
+        stats.addAll(statistics.returnStatisticsList());
+        mapStats.setItems(stats);
+    }
+
+    public void animalStatistics(){
+        if(!tracking) {
+            animalStatsShow.setVisible(false);
+            return;
+        }
+        ObservableList<String> animalStatsHeadlines = FXCollections.observableArrayList();
+        animalStatsHeadlines.addAll("Genotype", "Current genome", "Grass eaten", "Children amount", "Offsprings amount", "Age", "Death day");
+        this.animalStatsHeadlines.setItems(animalStatsHeadlines);
+        ObservableList<String> animalStats = FXCollections.observableArrayList();
+        animalStats.addAll(animalTracking.returnAnimalStatistics());
+        this.animalStats.setItems(animalStats);
+    }
+
     @Override
     public void mapChanged(WorldMap worldMap, String message) {
         Platform.runLater(() -> {
+            animalStatistics();
+            updateStatistics();
             drawMap(message);
         });
     }
@@ -97,7 +137,7 @@ public class SimulationPresenter implements MapChangeListener {
 
 
         worldMap.getFields().forEach((key, value)->{
-            fieldBoxes.add(new WorldElementBox(value, key));
+            fieldBoxes.add(new WorldElementBox(value, key, this));
             });
 
         simulations.add(simulation);
@@ -110,7 +150,42 @@ public class SimulationPresenter implements MapChangeListener {
         simulation.setPause(false);
     }
 
+    public void onStopTrackingClicked(ActionEvent actionEvent) {
+        tracking = false;
+    }
+
+
     public void onPauseClicked(ActionEvent actionEvent) throws InterruptedException {
         simulation.setPause(true);
+
+        List<Vector2d> mostCommonGenotype = new ArrayList<>();
+        if(!worldMap.getAnimals().isEmpty()){
+            String genotype = worldMap.getStatistics().getTopGenotypes(1).get(0).getKey();
+            for(Animal animal : worldMap.getAnimals()){
+                if(Objects.equals(animal.getGeneticCode(), genotype)){
+                    mostCommonGenotype.add(animal.getPosition());
+                }
+            }
+        }
+
+
+        for(WorldElementBox currBox : fieldBoxes){
+            if(currBox.isPreferred()) currBox.setBackground(new Background(new BackgroundFill(Color.rgb(0,155,0), CornerRadii.EMPTY, Insets.EMPTY)));
+            if (currBox.isGrassPlaced()){currBox.setBackground(new Background(new BackgroundFill(Color.rgb(0,255,0), CornerRadii.EMPTY, Insets.EMPTY)));}
+            if (mostCommonGenotype.contains(currBox.getPosition()))currBox.setBackground(new Background(new BackgroundFill(Color.rgb(150,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+        }
+
+    }
+
+    public Simulation getSimulation() {
+        return simulation;
+    }
+
+    public void setTracking(boolean value){
+        tracking = value;
+    }
+
+    public void setAnimalTracking(Animal animal) {
+        this.animalTracking = new AnimalTracking(animal, worldMap);
     }
 }

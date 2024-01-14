@@ -40,7 +40,7 @@ public class MapField {
     }
 
 
-    private List<Animal> sortByStronger(List<Animal> animals){
+    public List<Animal> sortByStronger(List<Animal> animals){
         List<Animal> animalsSorted = new ArrayList<>(animals);
         animalsSorted.sort((a, b) -> {
             if (a.getEnergy() > b.getEnergy()){
@@ -48,10 +48,16 @@ public class MapField {
             } else if (a.getEnergy() < b.getEnergy()) {
                 return  -1;
             } else {
-                if (a.getChildrenAmount() > b.getChildrenAmount()){
+                if(a.getAge() > b.getAge()){
                     return 1;
-                } else if (a.getChildrenAmount() < b.getChildrenAmount()) {
+                } else if (a.getAge() < b.getAge()) {
                     return -1;
+                } else {
+                    if (a.getChildrenAmount() > b.getChildrenAmount()){
+                        return 1;
+                    } else if (a.getChildrenAmount() < b.getChildrenAmount()) {
+                        return -1;
+                    }
                 }
             }
             return 0;
@@ -60,11 +66,18 @@ public class MapField {
         return animalsSorted;
     }
 
-    public void eatGrass(){
-        if (animals.isEmpty()) return;
+    public Grass eatGrass(){
+        if (animals.isEmpty()) return null;
+        if (grass == null) return null;
         List<Animal> sortedAnimals = sortByStronger(animals);
-        sortedAnimals.get(sortedAnimals.size()-1).addEnergy(energyFromGrass);
+        System.out.println(sortedAnimals);
+        Animal animal = sortedAnimals.get(sortedAnimals.size()-1);
+        animal.addEnergy(energyFromGrass);
+        animal.eatGrass();
+        System.out.println(sortedAnimals);
+        Grass grass1 = grass;
         this.removeGrass();
+        return grass1;
     }
 
     public List<Animal> reproduction(){
@@ -72,16 +85,23 @@ public class MapField {
         ReproductionSystem rp = new ReproductionSystem(energyUsed, mutationSystem);
         List<Animal> children = new ArrayList<>();
         List<Animal> sortedAnimals = sortByStronger(animals);
+//        int i = sortedAnimals.size() - 1;
+//        while (i > 0){
+//            Animal parent1 = sortedAnimals.remove(i);
+//            if (parent1.getEnergy() < energyToReproduce) return children;
+//            Animal parent2 = sortedAnimals.remove(i-1);
+//            Animal child = rp.reproduce(parent1, parent2);
+//            animals.add(child);
+//            children.add(child);
+//            i -= 2;
+//        }
         int i = sortedAnimals.size() - 1;
-        while (i > 1){
-            Animal parent1 = sortedAnimals.remove(i);
-            if (parent1.getEnergy() < energyToReproduce) return children;
-            Animal parent2 = sortedAnimals.remove(i-1);
-            Animal child = rp.reproduce(parent1, parent2);
-            animals.add(child);
-            children.add(child);
-            i -= 2;
-        }
+        if (i < 1) return null;
+        Animal parent1 = sortedAnimals.remove(i);
+        if (parent1.getEnergy() < energyToReproduce) return null;
+        Animal parent2 = sortedAnimals.remove(i-1);
+        Animal child = rp.reproduce(parent1, parent2);
+        children.add(child);
         return children;
     }
 
@@ -92,5 +112,14 @@ public class MapField {
 
     public boolean isGrass(){
         return grass != null;
+    }
+
+    @Override
+    public String toString() {
+        List<String> s = new ArrayList<>();
+        animals.forEach(animal -> {
+            s.add(animal.toString());
+        });
+        return s.toString();
     }
 }

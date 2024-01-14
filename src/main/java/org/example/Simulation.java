@@ -6,7 +6,7 @@ public class Simulation implements Runnable {
 
     private WorldMap worldMap;
 
-    boolean isPause=false;
+    public boolean isPause=false;
 
     public Simulation(WorldMap worldMap) {
         this.worldMap = worldMap;
@@ -15,11 +15,11 @@ public class Simulation implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(200);
                 while (!isPause) {
                     worldMap.dayCycle();
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }

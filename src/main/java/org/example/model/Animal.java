@@ -13,6 +13,10 @@ public class Animal implements WorldElement {
     private int currentGenome;
     private int energy;
 
+    public int age;
+
+    public int grassCount;
+
     public List<Animal> children = new LinkedList<>();
 
     public List<Animal> parents = new LinkedList<>();
@@ -30,14 +34,11 @@ public class Animal implements WorldElement {
         this.geneticCode = geneticCode;
         this.geneticLength = geneticCode.length();
         this.energy = energy;
+        age = 0;
         myId=id;
         id+=1;
     }
 
-    @Override
-    public String toString() {
-        return orientation.toString();
-    }
 
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
@@ -52,7 +53,6 @@ public class Animal implements WorldElement {
 
     public MapDirection nextOrientation(){
         int turns = geneticCode.charAt(currentGenome) - '0';
-        System.out.println(position.toString() + orientation +" Energy "+ energy +" ID "+myId);
         MapDirection newOrientation = orientation;
         for (int i = 0; i < turns; i++) {
             newOrientation = newOrientation.next();
@@ -64,7 +64,9 @@ public class Animal implements WorldElement {
         return position.add(nextOrientation().toUnitVector());
     }
 
-
+    public void addAge(){
+        this.age += 1;
+    }
     @Override
     public Vector2d getPosition() {
         return position;
@@ -110,6 +112,10 @@ public class Animal implements WorldElement {
         return children.size();
     }
 
+    public int getAge(){
+        return age;
+    }
+
     public Set<Animal> getOffspring(){
         Set<Animal> allOfsprings = new HashSet<>(children);
         for (Animal currChildren : children){
@@ -130,5 +136,16 @@ public class Animal implements WorldElement {
         this.orientation = this.orientation.opposite();
     }
 
+    @Override
+    public String toString(){
+        return position.toString() + orientation +" Energy "+ energy +" ID "+myId + " currGenome " + geneticCode.charAt(currentGenome) + " " + geneticCode;
+    }
 
+    public void eatGrass(){
+        grassCount += 1;
+    }
+
+    public int getGrassCount(){
+        return grassCount;
+    }
 }

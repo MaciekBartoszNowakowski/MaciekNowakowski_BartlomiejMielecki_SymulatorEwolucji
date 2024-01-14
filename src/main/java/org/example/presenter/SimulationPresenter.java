@@ -159,10 +159,12 @@ public class SimulationPresenter implements MapChangeListener {
         simulation.setPause(true);
 
         List<Vector2d> mostCommonGenotype = new ArrayList<>();
-        String genotype = worldMap.getStatistics().getTopGenotypes(1).get(0).getKey();
-        for(Animal animal : worldMap.getAnimals()){
-            if(Objects.equals(animal.getGeneticCode(), genotype)){
-                mostCommonGenotype.add(animal.getPosition());
+        if(!worldMap.getAnimals().isEmpty()){
+            String genotype = worldMap.getStatistics().getTopGenotypes(1).get(0).getKey();
+            for(Animal animal : worldMap.getAnimals()){
+                if(Objects.equals(animal.getGeneticCode(), genotype)){
+                    mostCommonGenotype.add(animal.getPosition());
+                }
             }
         }
 

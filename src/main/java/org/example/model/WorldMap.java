@@ -32,4 +32,6 @@ public interface WorldMap {
     List<Animal> getAnimals();
 
     List<Grass> getGrasses();
+
+    int getEnergyToReproduce();
 }

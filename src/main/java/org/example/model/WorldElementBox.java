@@ -1,10 +1,16 @@
 package org.example.model;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import org.example.presenter.SimulationPresenter;
+import javafx.scene.shape.Rectangle;
 
 public class WorldElementBox extends VBox {
 
@@ -19,14 +25,20 @@ public class WorldElementBox extends VBox {
 
     private Label label;
 
+    private Rectangle animalRepresentation;
 
-    public WorldElementBox(MapField mapField, Vector2d vector2d, SimulationPresenter simulationPresenter) {
+    private final int energyClassifier;
+
+
+    public WorldElementBox(MapField mapField, Vector2d vector2d, SimulationPresenter simulationPresenter, int energyClassifier) {
         this.mapField = mapField;
         this.vector2d = vector2d;
         this.simulationPresenter = simulationPresenter;
         this.label = new Label("");
+        this.animalRepresentation =new Rectangle();
         this.setAlignment(Pos.CENTER);
-        this.getChildren().addAll(label);
+        this.getChildren().addAll(animalRepresentation);
+        this.energyClassifier=energyClassifier;
 
         this.setOnMouseClicked(mouseEvent -> {
             if(mouseEvent.getButton() == MouseButton.PRIMARY){
@@ -42,16 +54,29 @@ public class WorldElementBox extends VBox {
 
     public void update() {
         this.amountOfAnimals = mapField.animals.size();
-        this.getChildren().removeAll(label);
+        this.getChildren().removeAll(animalRepresentation);
         setCustomBackground();
         if (this.amountOfAnimals != 0) {
             int animalEnergy = mapField.sortByStronger(mapField.animals).get(mapField.animals.size()-1).getEnergy();
             this.label = new Label(amountOfAnimals + "");
+            if(animalEnergy < energyClassifier){
+                animalRepresentation= new Rectangle(10, 10, Color.rgb(0,50,200));
+            }
+            else if(animalEnergy < 2*energyClassifier){
+                animalRepresentation=new Rectangle(10, 10, Color.rgb(150,150,0));
+            }
+            else{
+                animalRepresentation=new Rectangle(10, 10, Color.rgb(200,50,0));
+            }
+
+            this.setAlignment(Pos.CENTER);
+            this.getChildren().addAll(animalRepresentation);
+//            System.out.println("Weszlo");
         } else {
-            this.label = new Label();
+            this.animalRepresentation =new Rectangle();
+            this.getChildren().addAll(animalRepresentation);
+            this.setAlignment(Pos.CENTER);
         }
-        this.setAlignment(Pos.CENTER);
-        this.getChildren().addAll(label);
     }
 
     public Vector2d getPosition(){

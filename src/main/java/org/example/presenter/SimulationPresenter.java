@@ -35,7 +35,6 @@ public class SimulationPresenter implements MapChangeListener {
 
     public WorldMap worldMap;
 
-
     @FXML
     private GridPane mapGrid;
 
@@ -45,7 +44,7 @@ public class SimulationPresenter implements MapChangeListener {
     private List<WorldElementBox> fieldBoxes = new ArrayList<>();
 
     private AnimalTracking animalTracking = null;
-
+    private WorldElementBox markedBox = null;
     public void setWorldMap(WorldMap worldMap) {
         this.worldMap = worldMap;
     }
@@ -76,11 +75,11 @@ public class SimulationPresenter implements MapChangeListener {
                 animalTracked = animalTracking.getAnimal();
             }
             if (currBox.isGrassPlaced()){
-                currBox.setBackground(new Background(new BackgroundFill(Color.rgb(0,255,0), CornerRadii.EMPTY, Insets.EMPTY)));
+                colorGrass(currBox);
             } else if (animalTracked != null && animalTracked.getPosition().equals(vector2d)) {
-                currBox.setBackground(new Background(new BackgroundFill(Color.rgb(148,0,211), CornerRadii.EMPTY, Insets.EMPTY)));
+                markTrackedAnimal(currBox);
             } else{
-                currBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255), CornerRadii.EMPTY, Insets.EMPTY)));
+                colorEmptyField(currBox);
             }
             currBox.setBorder(new Border(new BorderStroke(Color.valueOf("#9E9E9E"),
                     BorderStrokeStyle.SOLID,
@@ -162,6 +161,15 @@ public class SimulationPresenter implements MapChangeListener {
     public void onPauseClicked(ActionEvent actionEvent) throws InterruptedException {
         simulation.setPause(true);
 
+        for(WorldElementBox currBox : fieldBoxes){
+            if(currBox.isPreferred()) colorPreferredField(currBox);
+            if (currBox.isGrassPlaced()) colorGrass(currBox);
+            if (mostCommonGenotypePositions().contains(currBox.getPosition())) colorMostCommonGenotype(currBox);
+        }
+
+    }
+
+    private List<Vector2d> mostCommonGenotypePositions(){
         List<Vector2d> mostCommonGenotype = new ArrayList<>();
         if(!worldMap.getAnimals().isEmpty()){
             String genotype = worldMap.getStatistics().getTopGenotypes(1).get(0).getKey();
@@ -171,14 +179,7 @@ public class SimulationPresenter implements MapChangeListener {
                 }
             }
         }
-
-
-        for(WorldElementBox currBox : fieldBoxes){
-            if(currBox.isPreferred()) currBox.setBackground(new Background(new BackgroundFill(Color.rgb(0,155,0), CornerRadii.EMPTY, Insets.EMPTY)));
-            if (currBox.isGrassPlaced()){currBox.setBackground(new Background(new BackgroundFill(Color.rgb(0,255,0), CornerRadii.EMPTY, Insets.EMPTY)));}
-            if (mostCommonGenotype.contains(currBox.getPosition()))currBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,0), CornerRadii.EMPTY, Insets.EMPTY)));
-        }
-
+        return mostCommonGenotype;
     }
 
     public Simulation getSimulation() {
@@ -191,5 +192,32 @@ public class SimulationPresenter implements MapChangeListener {
 
     public void setAnimalTracking(Animal animal) {
         this.animalTracking = new AnimalTracking(animal, worldMap);
+    }
+
+    private void colorGrass(WorldElementBox currBox){
+        currBox.setBackground(new Background(new BackgroundFill(Color.rgb(0,255,0), CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    private void colorPreferredField(WorldElementBox currBox){
+        currBox.setBackground(new Background(new BackgroundFill(Color.rgb(0,155,0), CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    private void colorEmptyField(WorldElementBox currBox){
+        currBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255), CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    private void colorMostCommonGenotype(WorldElementBox currBox){
+        currBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,0), CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    public void markTrackedAnimal(WorldElementBox currBox) {
+        if (markedBox != null){
+            if (markedBox.isPreferred()) colorPreferredField(markedBox);
+            else if (markedBox.isGrassPlaced()) colorGrass(markedBox);
+            else if (mostCommonGenotypePositions().contains(markedBox.getPosition())) colorMostCommonGenotype(markedBox);
+            else colorEmptyField(markedBox);
+        }
+        currBox.setBackground(new Background(new BackgroundFill(Color.rgb(148,0,211), CornerRadii.EMPTY, Insets.EMPTY)));
+        markedBox = currBox;
     }
 }

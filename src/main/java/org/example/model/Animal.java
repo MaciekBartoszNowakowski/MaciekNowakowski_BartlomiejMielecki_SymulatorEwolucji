@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Set;
 
-public class Animal implements WorldElement {
+public class Animal implements WorldElement, Comparable<Animal> {
 
     private final String geneticCode;
     private final int geneticLength;
@@ -147,5 +147,27 @@ public class Animal implements WorldElement {
 
     public int getGrassCount(){
         return grassCount;
+    }
+
+    @Override
+    public int compareTo(Animal other) {
+        if (this.getEnergy() > other.getEnergy()){
+            return 1;
+        } else if (this.getEnergy() < other.getEnergy()){
+            return -1;
+        } else {
+            if (this.getAge() > other.getAge()){
+                return 1;
+            } else if (this.getAge() < other.getAge()) {
+                return -1;
+            } else {
+                if (this.getChildrenAmount() > other.getChildrenAmount()){
+                    return 1;
+                } else if (this.getChildrenAmount() < other.getChildrenAmount()){
+                    return -1;
+                }
+            }
+        }
+        return 0;
     }
 }

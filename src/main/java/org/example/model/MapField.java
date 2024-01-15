@@ -1,8 +1,6 @@
 package org.example.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class MapField {
     public List<Animal> animals = new ArrayList<>(); // lista zwierząt na polu
@@ -69,42 +67,27 @@ public class MapField {
     public Grass eatGrass(){
         if (animals.isEmpty()) return null;
         if (grass == null) return null;
-        List<Animal> sortedAnimals = sortByStronger(animals);
-        System.out.println(sortedAnimals);
-        Animal animal = sortedAnimals.get(sortedAnimals.size()-1);
+        Collections.sort(animals);
+        Animal animal = animals.get(animals.size()-1);
         animal.addEnergy(energyFromGrass);
         animal.eatGrass();
-        System.out.println(sortedAnimals);
         Grass grass1 = grass;
         this.removeGrass();
         return grass1;
     }
 
     public List<Animal> reproduction(){
-        if (animals.isEmpty()) return null;
+        if (animals.size()<2) return null;
         ReproductionSystem rp = new ReproductionSystem(energyUsed, mutationSystem);
+        Collections.sort(animals);
         List<Animal> children = new ArrayList<>();
-        List<Animal> sortedAnimals = sortByStronger(animals);
-//        int i = sortedAnimals.size() - 1;
-//        while (i > 0){
-//            Animal parent1 = sortedAnimals.remove(i);
-//            if (parent1.getEnergy() < energyToReproduce) return children;
-//            Animal parent2 = sortedAnimals.remove(i-1);
-//            Animal child = rp.reproduce(parent1, parent2);
-//            animals.add(child);
-//            children.add(child);
-//            i -= 2;
-//        }
-        int i = sortedAnimals.size() - 1;
-        if (i < 1) return null;
-        Animal parent1 = sortedAnimals.remove(i);
+        Animal parent1 = animals.get(animals.size()-1);
         if (parent1.getEnergy() < energyToReproduce) return null;
-        Animal parent2 = sortedAnimals.remove(i-1);
+        Animal parent2 = animals.get(animals.size()-2);
         Animal child = rp.reproduce(parent1, parent2);
         children.add(child);
         return children;
     }
-
     public void setPreferred(boolean preferred) {
         this.preferred = preferred;
     }

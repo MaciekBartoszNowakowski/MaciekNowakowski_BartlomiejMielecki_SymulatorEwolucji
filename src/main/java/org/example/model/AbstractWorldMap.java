@@ -71,6 +71,12 @@ public abstract class AbstractWorldMap implements WorldMap{
             Animal animal = new Animal(position, generateNewGeneticCode(), startEnergy);
             MapField field = fields.get(position);
             field.placeAnimal(animal);
+            int currentGenome = rand.nextInt(0, geneticLength);
+            animal.setCurrentGenome(currentGenome);
+            int currentOrientation = rand.nextInt(0, 8);
+            for (int j = 0; j < currentOrientation; j++) {
+                animal.nextOrientation();
+            }
             animals.add(animal);
         }
     }
@@ -165,76 +171,12 @@ public abstract class AbstractWorldMap implements WorldMap{
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getGeneticLength() {
-        return geneticLength;
-    }
-
-    public void setGeneticLength(int geneticLength) {
-        this.geneticLength = geneticLength;
-    }
-
-    public int getStartEnergy() {
-        return startEnergy;
-    }
-
-    public void setStartEnergy(int startEnergy) {
-        this.startEnergy = startEnergy;
-    }
-
-    public int getAnimalQuantity() {
-        return animalQuantity;
-    }
-
-    public void setAnimalQuantity(int animalQuantity) {
-        this.animalQuantity = animalQuantity;
-    }
-
-    public int getGrassPerDay() {
-        return grassPerDay;
-    }
-
-    public void setGrassPerDay(int grassPerDay) {
-        this.grassPerDay = grassPerDay;
-    }
-
-    public int getEnergyFromGrass() {
-        return energyFromGrass;
-    }
-
-    public void setEnergyFromGrass(int energyFromGrass) {
-        this.energyFromGrass = energyFromGrass;
-    }
-
     public int getEnergyToReproduce() {
         return energyToReproduce;
-    }
-
-    public void setEnergyToReproduce(int energyToReproduce) {
-        this.energyToReproduce = energyToReproduce;
-    }
-
-    public void setEnergyUsed(int energyUsed) {
-        this.energyUsed = energyUsed;
-    }
-
-    public MutationSystem getMutationSystem() {
-        return mutationSystem;
-    }
-
-    public void setMutationSystem(MutationSystem mutationSystem) {
-        this.mutationSystem = mutationSystem;
     }
 
     public List<Grass> getGrasses() {

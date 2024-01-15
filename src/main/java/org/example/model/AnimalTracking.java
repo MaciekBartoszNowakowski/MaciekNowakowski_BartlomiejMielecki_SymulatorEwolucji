@@ -27,4 +27,11 @@ public class AnimalTracking {
         }
         return "";
     }
+
+    public boolean getIsDead(){
+        return isDead;
+    }
+    public Animal getAnimal(){
+        return animal;
+    }
 }

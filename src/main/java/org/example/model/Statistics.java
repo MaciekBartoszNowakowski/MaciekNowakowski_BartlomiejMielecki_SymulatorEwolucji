@@ -107,7 +107,7 @@ public class Statistics {
         double totalDescendants = 0;
 
         for (Animal animal : worldMap.getAnimals()) {
-            totalDescendants += animal.getOffspringsAmount();
+            totalDescendants += animal.getChildrenAmount();
         }
 
         return totalDescendants / worldMap.getAnimals().size();

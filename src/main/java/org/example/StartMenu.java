@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.example.presenter.MenuPresenter;
 
 public class StartMenu extends Application {
     @Override
@@ -13,6 +14,8 @@ public class StartMenu extends Application {
         loader.setLocation(getClass().getClassLoader().getResource("StartMenu.fxml"));
         BorderPane viewRoot = loader.load();
         configureStage(primaryStage,viewRoot);
+        MenuPresenter menuPresenter =loader.getController();
+        menuPresenter.updateSettingsBox();
         primaryStage.show();
     }
 

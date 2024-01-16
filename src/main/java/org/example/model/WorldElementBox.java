@@ -12,6 +12,8 @@ import javafx.scene.paint.Color;
 import org.example.presenter.SimulationPresenter;
 import javafx.scene.shape.Rectangle;
 
+import java.util.Collections;
+
 public class WorldElementBox extends VBox {
 
     private final MapField mapField;
@@ -57,7 +59,8 @@ public class WorldElementBox extends VBox {
         this.getChildren().removeAll(animalRepresentation);
         setCustomBackground();
         if (this.amountOfAnimals != 0) {
-            int animalEnergy = mapField.sortByStronger(mapField.animals).get(mapField.animals.size()-1).getEnergy();
+            Collections.sort(mapField.animals);
+            int animalEnergy = mapField.animals.get(mapField.animals.size()-1).getEnergy();
             this.label = new Label(amountOfAnimals + "");
             if(animalEnergy < energyClassifier){
                 animalRepresentation= new Rectangle(10, 10, Color.rgb(0,50,200));
@@ -96,8 +99,10 @@ public class WorldElementBox extends VBox {
         if(mapField.animals.isEmpty()) return;
         simulationPresenter.setTracking(true);
         simulationPresenter.animalStatsShow.setVisible(true);
-        Animal animal = mapField.sortByStronger(mapField.animals).get(mapField.animals.size()-1);
+        Collections.sort(mapField.animals);
+        Animal animal = mapField.animals.get(mapField.animals.size()-1);
         simulationPresenter.setAnimalTracking(animal);
         simulationPresenter.animalStatistics();
+        simulationPresenter.markTrackedAnimal(this);
     }
 }

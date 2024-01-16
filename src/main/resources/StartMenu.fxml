@@ -6,7 +6,6 @@
 
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             minHeight="550.0" minWidth="850.0"
@@ -41,7 +40,6 @@
                         </valueFactory>
 
                     </Spinner>
-
                 </HBox>
 
                 <Label text="Choose starting amount of grass and energy from eating"/>
@@ -70,6 +68,8 @@
                     </valueFactory>
 
                 </Spinner>
+
+                <ComboBox fx:id="settings" promptText="Choose settings"/>
 
 
             </VBox>

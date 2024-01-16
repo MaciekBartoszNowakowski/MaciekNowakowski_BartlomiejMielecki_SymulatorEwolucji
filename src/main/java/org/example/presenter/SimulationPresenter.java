@@ -20,8 +20,8 @@ import java.util.Objects;
 
 public class SimulationPresenter implements MapChangeListener {
 
-    private static final double CELL_WIDTH = 20;
-    private static final double CELL_HEIGHT = 20;
+    private int CELL_WIDTH = 20;
+    private int CELL_HEIGHT = 20;
     public ListView<String> mapStatsHeadlines;
     public ListView<String> mostCommonGenotypes;
     public ListView<String> animalStats;
@@ -140,7 +140,7 @@ public class SimulationPresenter implements MapChangeListener {
 
 
         worldMap.getFields().forEach((key, value)->{
-            fieldBoxes.add(new WorldElementBox(value, key, this, worldMap.getEnergyToReproduce()));
+            fieldBoxes.add(new WorldElementBox(value, key, this, worldMap.getEnergyToReproduce(),CELL_WIDTH,CELL_HEIGHT));
             });
 
         simulations.add(simulation);
@@ -219,5 +219,14 @@ public class SimulationPresenter implements MapChangeListener {
         }
         currBox.setBackground(new Background(new BackgroundFill(Color.rgb(148,0,211), CornerRadii.EMPTY, Insets.EMPTY)));
         markedBox = currBox;
+    }
+
+
+    public void setCELL_WIDTH(int CELL_WIDTH) {
+        this.CELL_WIDTH = CELL_WIDTH;
+    }
+
+    public void setCELL_HEIGHT(int CELL_HEIGHT) {
+        this.CELL_HEIGHT = CELL_HEIGHT;
     }
 }

@@ -40,6 +40,8 @@ public class MenuPresenter {
     @FXML
     private ComboBox<String> worldType;
 
+    @FXML ComboBox<String> settings;
+
     private MutationSystem mutationSystem;
 
     private WorldMap worldMap;
@@ -68,6 +70,9 @@ public class MenuPresenter {
 
         System.out.println(worldMap);
 
+        int widthBox=600/width.getValue();
+        int heightBox=600/height.getValue();
+
         if(raportCheckobox.isSelected()){
             FileMapDisplay fileMapDisplay=new FileMapDisplay();
             worldMap.register(fileMapDisplay);
@@ -75,7 +80,7 @@ public class MenuPresenter {
 
 
         Stage stage = new Stage();
-        SimulationApp simulationApp = new SimulationApp(stage, worldMap);
+        SimulationApp simulationApp = new SimulationApp(stage, worldMap,widthBox,heightBox);
 
     }
 }

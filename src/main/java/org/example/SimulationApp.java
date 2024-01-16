@@ -11,7 +11,7 @@ import org.example.presenter.SimulationPresenter;
 public class SimulationApp{
 
 
-    public SimulationApp(Stage primaryStage, WorldMap worldMap) throws Exception {
+    public SimulationApp(Stage primaryStage, WorldMap worldMap,int width, int height) throws Exception {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("mapVisualization.fxml"));
@@ -21,6 +21,9 @@ public class SimulationApp{
         SimulationPresenter simulationPresenter = loader.getController();
         simulationPresenter.setWorldMap(worldMap);
         worldMap.register(simulationPresenter);
+
+        simulationPresenter.setCELL_WIDTH(width);
+        simulationPresenter.setCELL_HEIGHT(height);
 
         configureStage(primaryStage,viewRoot);
         primaryStage.show();

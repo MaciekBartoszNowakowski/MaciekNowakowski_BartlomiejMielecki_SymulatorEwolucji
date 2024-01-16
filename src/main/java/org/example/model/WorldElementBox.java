@@ -31,8 +31,12 @@ public class WorldElementBox extends VBox {
 
     private final int energyClassifier;
 
+    private final int animalWidth;
 
-    public WorldElementBox(MapField mapField, Vector2d vector2d, SimulationPresenter simulationPresenter, int energyClassifier) {
+    private final int animalHeight;
+
+
+    public WorldElementBox(MapField mapField, Vector2d vector2d, SimulationPresenter simulationPresenter, int energyClassifier, int width, int height) {
         this.mapField = mapField;
         this.vector2d = vector2d;
         this.simulationPresenter = simulationPresenter;
@@ -41,6 +45,8 @@ public class WorldElementBox extends VBox {
         this.setAlignment(Pos.CENTER);
         this.getChildren().addAll(animalRepresentation);
         this.energyClassifier=energyClassifier;
+        this.animalWidth=width/2;
+        this.animalHeight=height/2;
 
         this.setOnMouseClicked(mouseEvent -> {
             if(mouseEvent.getButton() == MouseButton.PRIMARY){
@@ -63,13 +69,13 @@ public class WorldElementBox extends VBox {
             int animalEnergy = mapField.animals.get(mapField.animals.size()-1).getEnergy();
             this.label = new Label(amountOfAnimals + "");
             if(animalEnergy < energyClassifier){
-                animalRepresentation= new Rectangle(10, 10, Color.rgb(0,50,200));
+                animalRepresentation= new Rectangle(animalWidth, animalHeight, Color.rgb(200,50,0));
             }
             else if(animalEnergy < 2*energyClassifier){
-                animalRepresentation=new Rectangle(10, 10, Color.rgb(150,150,0));
+                animalRepresentation=new Rectangle(animalWidth, animalHeight, Color.rgb(150,150,0));
             }
             else{
-                animalRepresentation=new Rectangle(10, 10, Color.rgb(200,50,0));
+                animalRepresentation=new Rectangle(animalWidth, animalHeight, Color.rgb(0,50,200));
             }
 
             this.setAlignment(Pos.CENTER);

@@ -71,6 +71,15 @@
 
                 <ComboBox fx:id="settings" promptText="Choose settings"/>
 
+                <TextField fx:id="newName"  promptText="Name your map"/>
+
+                <HBox spacing="50">
+                    <Button text="Save" onAction="#onSaveClicked"/>
+                    <Button text="Load" onAction="#onLoadClicked"/>
+
+
+                </HBox>
+
 
             </VBox>
 

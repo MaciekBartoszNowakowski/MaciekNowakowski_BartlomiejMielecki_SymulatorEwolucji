@@ -165,6 +165,7 @@ public class SimulationPresenter implements MapChangeListener {
             if(currBox.isPreferred()) colorPreferredField(currBox);
             if (currBox.isGrassPlaced()) colorGrass(currBox);
             if (mostCommonGenotypePositions().contains(currBox.getPosition())) colorMostCommonGenotype(currBox);
+            if (markedBox != null) markedBox.setBackground(new Background(new BackgroundFill(Color.rgb(148,0,211), CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
     }
@@ -212,9 +213,9 @@ public class SimulationPresenter implements MapChangeListener {
 
     public void markTrackedAnimal(WorldElementBox currBox) {
         if (markedBox != null){
-            if (markedBox.isPreferred()) colorPreferredField(markedBox);
+            if (mostCommonGenotypePositions().contains(markedBox.getPosition())) colorMostCommonGenotype(markedBox);
+            else if (markedBox.isPreferred()) colorPreferredField(markedBox);
             else if (markedBox.isGrassPlaced()) colorGrass(markedBox);
-            else if (mostCommonGenotypePositions().contains(markedBox.getPosition())) colorMostCommonGenotype(markedBox);
             else colorEmptyField(markedBox);
         }
         currBox.setBackground(new Background(new BackgroundFill(Color.rgb(148,0,211), CornerRadii.EMPTY, Insets.EMPTY)));

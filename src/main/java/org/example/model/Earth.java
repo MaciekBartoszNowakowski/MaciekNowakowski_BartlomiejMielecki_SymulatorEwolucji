@@ -1,8 +1,8 @@
 package org.example.model;
 
 public class Earth extends AbstractWorldMap{
-    public Earth(int height, int width, int startEnergy, int animalQuantity, int geneticLength, int grassPerDay, int energyFromGrass, int energyToReproduce, double energyUsed, MutationSystem mutationSystem) {
-        super(height, width, startEnergy, animalQuantity, geneticLength, grassPerDay, energyFromGrass, energyToReproduce, energyUsed, mutationSystem);
+    public Earth(int height, int width, int startEnergy, int animalQuantity, int geneticLength, int grassPerDay, int energyFromGrass, int energyToReproduce, double energyUsed, MutationSystem mutationSystem, int startingGrassAmount) {
+        super(height, width, startEnergy, animalQuantity, geneticLength, grassPerDay, energyFromGrass, energyToReproduce, energyUsed, mutationSystem, startingGrassAmount);
     }
 
 

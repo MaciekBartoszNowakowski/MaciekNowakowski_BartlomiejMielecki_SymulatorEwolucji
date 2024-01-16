@@ -103,7 +103,7 @@ public class SimulationPresenter implements MapChangeListener {
         genotypes.addAll(statistics.returnGenotypesList(10));
         mostCommonGenotypes.setItems(genotypes);
         ObservableList<String> statsHeadlines = FXCollections.observableArrayList();
-        statsHeadlines.addAll("Animals amount", "Grass amount", "Free fields amount", "Average energy", "Average lifespan", "Average offsprings amount");
+        statsHeadlines.addAll("Animals amount", "Grass amount", "Free fields amount", "Average energy", "Average lifespan", "Average children amount");
         mapStatsHeadlines.setItems(statsHeadlines);
         ObservableList<String> stats = FXCollections.observableArrayList();
         stats.addAll(statistics.returnStatisticsList());

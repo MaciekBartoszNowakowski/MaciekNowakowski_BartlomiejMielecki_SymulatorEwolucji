@@ -68,11 +68,11 @@ public class MenuPresenter {
         if (worldName.equals("Earth")) {
             worldMap = new Earth(height.getValue(), width.getValue(), animalEnergy.getValue(), animalsAmount.getValue(),
                     codeLength.getValue(), dailyGrowth.getValue(), grassEnergy.getValue(), healthyEnergyAmount.getValue()
-                    , partitionEnergy.getValue(), mutationSystem);
+                    , partitionEnergy.getValue(), mutationSystem, grassAmount.getValue());
         } else {
             worldMap = new HellGate(height.getValue(), width.getValue(), animalEnergy.getValue(), animalsAmount.getValue(),
                     codeLength.getValue(), dailyGrowth.getValue(), grassEnergy.getValue(), healthyEnergyAmount.getValue()
-                    , partitionEnergy.getValue(), mutationSystem);
+                    , partitionEnergy.getValue(), mutationSystem, grassAmount.getValue());
 
         }
 

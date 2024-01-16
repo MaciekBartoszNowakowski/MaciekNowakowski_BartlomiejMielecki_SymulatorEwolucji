@@ -3,8 +3,8 @@ package org.example.model;
 import java.util.Random;
 
 public class HellGate extends AbstractWorldMap{
-    public HellGate(int height, int width, int startEnergy, int animalQuantity, int geneticLength, int grassPerDay, int energyFromGrass, int energyToReproduce, double energyUsed, MutationSystem mutationSystem) {
-        super(height, width, startEnergy, animalQuantity, geneticLength, grassPerDay, energyFromGrass, energyToReproduce, energyUsed, mutationSystem);
+    public HellGate(int height, int width, int startEnergy, int animalQuantity, int geneticLength, int grassPerDay, int energyFromGrass, int energyToReproduce, double energyUsed, MutationSystem mutationSystem, int startingGrassAmount) {
+        super(height, width, startEnergy, animalQuantity, geneticLength, grassPerDay, energyFromGrass, energyToReproduce, energyUsed, mutationSystem, startingGrassAmount);
     }
 
 

@@ -163,7 +163,7 @@ public class SimulationPresenter implements MapChangeListener {
             if(currBox.isPreferred()) colorPreferredField(currBox);
             if (currBox.isGrassPlaced()) colorGrass(currBox);
             if (mostCommonGenotypePositions().contains(currBox.getPosition())) colorMostCommonGenotype(currBox);
-            if (markedBox != null) markedBox.setBackground(new Background(new BackgroundFill(Color.rgb(148,0,211), CornerRadii.EMPTY, Insets.EMPTY)));
+            if (tracking && !animalTracking.getIsDead() & markedBox != null) markedBox.setBackground(new Background(new BackgroundFill(Color.rgb(148,0,211), CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
     }

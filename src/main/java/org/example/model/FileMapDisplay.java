@@ -1,31 +1,31 @@
 package org.example.model;
 
+import java.io.File;
 import java.io.FileWriter;
 import com.opencsv.CSVWriter;
 
 public class FileMapDisplay implements MapChangeListener {
 
-
     @Override
     public void mapChanged(WorldMap worldMap, String message) {
+
         Statistics stats=worldMap.getStatistics();
-        String fileName = "EvolutonSimulationData.csv";
-        try (FileWriter fileWrite = new FileWriter(fileName, true)) {
-            fileWrite.write("Day of Simulation: " + worldMap.getWorldAge() + "\n");
-            fileWrite.write("Amount of living animals: "+stats.getTotalAnimals() + "\n");
-            fileWrite.write("Amount of grass: "+stats.getTotalGrass() + "\n");
-            fileWrite.write("Amount of free fields: "+stats.getFreeFields() + "\n");
-            fileWrite.write("Avarage energy: "+stats.getAverageEnergy() + "\n");
-            fileWrite.write("Avarage lifespan: "+stats.getAverageLifespan() + "\n");
-            fileWrite.write("Avarage children amount: "+stats.getAverageChildren() + "\n");
-            fileWrite.write("Amount of dead animals: "+stats.getDeadAnimals().size() + "\n");
-            fileWrite.write("All genomes and popularity of them"+ "\n");
-            for (String currGenotype : stats.returnGenotypesList(stats.getGenotypeCounts().size())){
-                fileWrite.write(currGenotype + "\n");
-            }
+        try {
+            File file = new File("EvolutonSimulationData.csv");
+            FileWriter outputFile = new FileWriter(file,true);
+            CSVWriter writer = new CSVWriter(outputFile,';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
+            String[] data={worldMap.getWorldAge()+"",stats.getTotalAnimals()+"",stats.getTotalGrass()+"",stats.getAverageChildren()+"",
+                    stats.returnGenotypesList(1)+"",stats.getAverageLifespan()+"",stats.getAverageEnergy()+""};
+            writer.writeNext(data);
+            writer.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
+
 }

@@ -1,5 +1,6 @@
 package org.example.presenter;
 
+import com.opencsv.CSVWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -76,13 +77,26 @@ public class MenuPresenter {
 
         }
 
-        System.out.println(worldMap);
 
         int widthBox=600/width.getValue();
         int heightBox=600/height.getValue();
 
         if(raportCheckobox.isSelected()){
-            FileMapDisplay fileMapDisplay=new FileMapDisplay();
+            FileMapDisplay fileMapDisplay = new FileMapDisplay();
+            try {
+                File file = new File("EvolutonSimulationData.csv");
+                FileWriter outputFile = new FileWriter(file);
+                CSVWriter writer = new CSVWriter(outputFile,';', CSVWriter.NO_QUOTE_CHARACTER,
+                        CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                        CSVWriter.DEFAULT_LINE_END);
+                String[] header = {"Day","AmountOfAnimals","AmountofGrass","AvarageAmountOfChidren","MostPopularGenotype","AvarageAge", "AvarageAmountOfEnergy"};
+                System.out.println(header[0]);
+                writer.writeNext(header);
+                outputFile.close();
+            }
+            catch(IOException e){
+                e.printStackTrace();
+            }
             worldMap.register(fileMapDisplay);
         }
 
@@ -93,7 +107,6 @@ public class MenuPresenter {
     }
 
     public void updateSettingsBox(){
-        System.out.println("BajoJajo");
         String directoryPath ="maps";
         File directory = new File(directoryPath);
         if (directory.exists() && directory.isDirectory()){
@@ -105,9 +118,6 @@ public class MenuPresenter {
                         .forEach(file -> fileNames.add(file.getName()));
 
                 settings.setItems(fileNames);
-                for(String name : fileNames){
-                    System.out.println(name);
-                }
             }
         }
 
@@ -150,59 +160,45 @@ public class MenuPresenter {
             String line;
 //            Map
             line=bufferedReader.readLine();
-            System.out.println(line);
             worldType.setValue(line);
 //          height
             line=bufferedReader.readLine();
-            System.out.println(line);
             height.getValueFactory().setValue(Integer.valueOf(line));
 //          width
             line=bufferedReader.readLine();
-            System.out.println(line);
             width.getValueFactory().setValue(Integer.valueOf(line));
 //          grassAmount
             line=bufferedReader.readLine();
-            System.out.println(line);
             grassAmount.getValueFactory().setValue(Integer.valueOf(line));
 //            grassEnergy
             line=bufferedReader.readLine();
-            System.out.println(line);
             grassEnergy.getValueFactory().setValue(Integer.valueOf(line));
 //            dailyGrowth
             line=bufferedReader.readLine();
-            System.out.println(line);
             dailyGrowth.getValueFactory().setValue(Integer.valueOf(line));
 //            mutationTypes
             line=bufferedReader.readLine();
-            System.out.println(line);
             mutationTypes.setValue(line);
 //            animalsAmount
             line=bufferedReader.readLine();
-            System.out.println(line);
             animalsAmount.getValueFactory().setValue(Integer.valueOf(line));
 //            animalEnergy
             line=bufferedReader.readLine();
-            System.out.println(line);
             animalEnergy.getValueFactory().setValue(Integer.valueOf(line));
 //            healthyEnergyAmount
             line=bufferedReader.readLine();
-            System.out.println(line);
             healthyEnergyAmount.getValueFactory().setValue(Integer.valueOf(line));
 //            partitionEnergy
             line=bufferedReader.readLine();
-            System.out.println(line);
             partitionEnergy.getValueFactory().setValue(Double.valueOf(line));
 //          miniMutation
             line=bufferedReader.readLine();
-            System.out.println(line);
             miniMutation.getValueFactory().setValue(Integer.valueOf(line));
 //            maksiMutation
             line=bufferedReader.readLine();
-            System.out.println(line);
             maksiMutation.getValueFactory().setValue(Integer.valueOf(line));
 //          codeLength
             line=bufferedReader.readLine();
-            System.out.println(line);
             codeLength.getValueFactory().setValue(Integer.valueOf(line));
 
         }catch (IOException e) {

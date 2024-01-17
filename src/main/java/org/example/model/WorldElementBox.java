@@ -66,8 +66,10 @@ public class WorldElementBox extends VBox {
         setCustomBackground();
         if (this.amountOfAnimals != 0) {
             Collections.sort(mapField.animals);
-            int animalEnergy = mapField.animals.get(mapField.animals.size()-1).getEnergy();
+            int animalEnergy = mapField.animals.get(mapField.animals.size() - 1).getEnergy();
             this.label = new Label(amountOfAnimals + "");
+//            czerwony to zbyt głodny, żeby się rozmnażać, ciemnożółty to trochę ponad ilość potrzebną do rozmnażania,
+//            a niebieski, to z dużą ilością energii
             if(animalEnergy < energyClassifier){
                 animalRepresentation= new Rectangle(animalWidth, animalHeight, Color.rgb(200,50,0));
             }
@@ -80,7 +82,6 @@ public class WorldElementBox extends VBox {
 
             this.setAlignment(Pos.CENTER);
             this.getChildren().addAll(animalRepresentation);
-//            System.out.println("Weszlo");
         } else {
             this.animalRepresentation =new Rectangle();
             this.getChildren().addAll(animalRepresentation);

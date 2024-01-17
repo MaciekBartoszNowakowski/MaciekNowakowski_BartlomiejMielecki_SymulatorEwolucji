@@ -69,7 +69,6 @@ public abstract class AbstractWorldMap implements WorldMap{
             int x = rand.nextInt(width);
             int y = rand.nextInt(height);
             Vector2d position = new Vector2d(x, y);
-            System.out.println(startEnergy);
             Animal animal = new Animal(position, generateNewGeneticCode(), startEnergy);
             MapField field = fields.get(position);
             field.placeAnimal(animal);
@@ -147,7 +146,6 @@ public abstract class AbstractWorldMap implements WorldMap{
         updateStatistics();
 
         mapChanged("NewDay");
-        System.out.println("NewDay");
         moveAnimals();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {

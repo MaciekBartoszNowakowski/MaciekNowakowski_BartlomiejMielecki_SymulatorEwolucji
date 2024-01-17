@@ -64,7 +64,6 @@ public class SimulationPresenter implements MapChangeListener {
 //        int minY = 0;
         int columns = worldMap.getWidth();
         int lines = worldMap.getHeight();
-        System.out.println("columns: " +columns +" "+"Lines "+lines);
 
 
         for(WorldElementBox currBox : fieldBoxes){
@@ -93,7 +92,6 @@ public class SimulationPresenter implements MapChangeListener {
         for (int i =0;i<lines;i++) mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
 
 
-//        System.out.println("Odswiezenie");
 
     }
 

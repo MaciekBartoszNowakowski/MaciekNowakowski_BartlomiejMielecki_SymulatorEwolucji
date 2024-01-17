@@ -17,11 +17,6 @@ public class SimulationEngine {
 
     }
 
-    public void runSync(){
-        for( Simulation currSim : simulations){
-            currSim.run();
-        }
-    }
 
     public void runAsync() throws InterruptedException {
         for( Simulation currSim : simulations){
@@ -34,39 +29,5 @@ public class SimulationEngine {
 
     }
 
-    public void pause() throws InterruptedException {
-        for(Thread currThread : threads){
-            currThread.wait();
-        }
-    }
-
-    public void go(){
-        for(Thread currThread : threads){
-            currThread.notify();
-        }
-    }
-
-
-    public void runAsyncInThreadPool() throws InterruptedException {
-        for(Simulation simulation : simulations){
-            executorService.submit(simulation);
-        }
-//       awaitSimulationsEnd();
-    }
-
-    public void awaitSimulationsEnd() throws InterruptedException {
-        for (Thread currTh : threads){
-            currTh.join();
-        }
-        executorService.shutdown();
-        try{
-            if (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
-                executorService.shutdownNow();
-            }
-        }catch(InterruptedException e){
-            executorService.shutdownNow();
-        }
-
-    }
 
 }

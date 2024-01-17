@@ -16,6 +16,7 @@ public abstract class AbstractWorldMap implements WorldMap{
     protected int energyFromGrass;
     protected int energyToReproduce;
     protected double energyUsed;
+    protected int startingGrassAmount;
     protected MutationSystem mutationSystem;
     protected double equatorStart;
     protected double equatorEnd;
@@ -24,7 +25,7 @@ public abstract class AbstractWorldMap implements WorldMap{
     public List<MapChangeListener> listeners = new ArrayList<>();
 
     public AbstractWorldMap(int height, int width, int startEnergy, int animalQuantity, int geneticLength,
-                            int grassPerDay, int energyFromGrass, int energyToReproduce, double energyUsed, MutationSystem mutationSystem
+                            int grassPerDay, int energyFromGrass, int energyToReproduce, double energyUsed, MutationSystem mutationSystem, int startingGrassAmount
                             ){
         this.height = height;
         this.width = width;
@@ -39,6 +40,7 @@ public abstract class AbstractWorldMap implements WorldMap{
         double equatorSize = height * 0.2;
         this.equatorStart = height/2 - equatorSize/2;
         this.equatorEnd = height/2 + equatorSize/2;
+        this.startingGrassAmount = startingGrassAmount;
         createMap();
         placeAnimals(animalQuantity);
     }
@@ -57,7 +59,7 @@ public abstract class AbstractWorldMap implements WorldMap{
                 }
             }
         }
-        growGrass();
+        growGrass(startingGrassAmount);
     }
 
 
@@ -129,8 +131,8 @@ public abstract class AbstractWorldMap implements WorldMap{
         }
     }
 
-    private void growGrass(){
-        RandomPositionGeneratorForGrass randomPositionGeneratorForGrass = new RandomPositionGeneratorForGrass(fields, width, height, grassPerDay);
+    private void growGrass(int grassAmount){
+        RandomPositionGeneratorForGrass randomPositionGeneratorForGrass = new RandomPositionGeneratorForGrass(fields, width, height, grassAmount);
 
         for (Vector2d grassPosition : randomPositionGeneratorForGrass){
             Grass grass = new Grass(grassPosition);
@@ -156,7 +158,7 @@ public abstract class AbstractWorldMap implements WorldMap{
                 if (newAnimals != null && !newAnimals.isEmpty()) animals.addAll(newAnimals);
             }
         }
-        growGrass();
+        growGrass(grassPerDay);
     }
 
     public Map<Vector2d, MapField> getFields() {

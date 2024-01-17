@@ -20,11 +20,11 @@
                 <HBox>
                     <VBox>
                         <Label text="Map statistics"/>
-                        <ListView fx:id="mapStatsHeadlines" maxHeight="140" maxWidth="200" mouseTransparent="true"/>
+                        <ListView fx:id="mapStatsHeadlines" maxHeight="165" maxWidth="200" mouseTransparent="true"/>
                     </VBox>
                     <VBox>
                         <Label/>
-                        <ListView fx:id="mapStats" maxHeight="140" maxWidth="50" mouseTransparent="true"/>
+                        <ListView fx:id="mapStats" maxHeight="165" maxWidth="50" mouseTransparent="true"/>
                     </VBox>
                 </HBox>
                 <Label text="Most common genotypes"/>

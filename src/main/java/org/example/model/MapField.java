@@ -20,7 +20,6 @@ public class MapField {
         this.mutationSystem = mutationSystem;
     }
 
-    // stawia zwierze na polu
     public void placeAnimal(Animal animal){
         animals.add(animal);
     }
@@ -35,33 +34,6 @@ public class MapField {
 
     public void removeGrass(){
         this.grass = null;
-    }
-
-
-    public List<Animal> sortByStronger(List<Animal> animals){
-        List<Animal> animalsSorted = new ArrayList<>(animals);
-        animalsSorted.sort((a, b) -> {
-            if (a.getEnergy() > b.getEnergy()){
-                return 1;
-            } else if (a.getEnergy() < b.getEnergy()) {
-                return  -1;
-            } else {
-                if(a.getAge() > b.getAge()){
-                    return 1;
-                } else if (a.getAge() < b.getAge()) {
-                    return -1;
-                } else {
-                    if (a.getChildrenAmount() > b.getChildrenAmount()){
-                        return 1;
-                    } else if (a.getChildrenAmount() < b.getChildrenAmount()) {
-                        return -1;
-                    }
-                }
-            }
-            return 0;
-        }
-        );
-        return animalsSorted;
     }
 
     public Grass eatGrass(){

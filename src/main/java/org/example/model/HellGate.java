@@ -23,6 +23,7 @@ public class HellGate extends AbstractWorldMap{
         if (fields.size()==1) return oldPosition;
 
         correctPosition = generateRandomFreePosition();
+        if (correctPosition == null) correctPosition = oldPosition;
 
         while (correctPosition != null && correctPosition.equals(oldPosition)) {
             Random rand = new Random();
